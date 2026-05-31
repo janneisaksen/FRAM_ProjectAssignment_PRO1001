@@ -1,5 +1,5 @@
 :root {
-  --background: #f7f2ed;
+  --background: #f7f2de;
   --surface: #ffffff;
   --surface-soft: #f7f2ed;
   --surface-blue: #e1eaf0;
@@ -104,7 +104,11 @@ button {
 
 .topbar {
   align-items: center;
-  min-height: 78px;
+  min-height: 56px;
+  border-bottom: 1px solid rgba(11, 10, 8, 0.45);
+  width: 100%;
+  max-width: none;
+  margin: 0;
 }
 
 .menu-button,
@@ -118,13 +122,13 @@ button {
   justify-self: start;
   display: inline-flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
   cursor: pointer;
 }
 
 .menu-button span {
-  width: 22px;
-  height: 2px;
+  width: 20px;
+  height: 1.5px;
   border-radius: 999px;
   background: var(--text);
 }
@@ -135,50 +139,56 @@ button {
   color: inherit;
   text-decoration: none;
   font-family: "Frank Ruhl Libre", serif;
-  font-size: 2rem;
+  font-size: 2.95rem;
   font-weight: 300;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.02em;
+  line-height: 1;
 }
 
 .status-pill {
   grid-column: 12;
   justify-self: end;
-  min-width: 68px;
-  padding: 0.55rem 1rem;
-  border-radius: 999px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
   background: var(--success);
-  color: #fff;
+  color: var(--text);
   text-decoration: none;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 500;
   text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero {
   position: relative;
-  min-height: 840px;
+  min-height: calc(100vh - 56px);
   color: #fff;
-  background-image: linear-gradient(rgba(32, 34, 33, 0.01), rgba(32, 34, 33, 0.01)),
+  background-image: linear-gradient(rgba(32, 34, 33, 0.005), rgba(32, 34, 33, 0.005)),
     url("https://images.unsplash.com/photo-1713244649594-0c2de54f2eaa?q=80&w=1750&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
   background-size: cover;
-  background-position: center center;
+  background-position: center 58%;
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(9, 10, 10, 0.01) 0%, rgba(15, 16, 16, 0.02) 100%);
+  background: linear-gradient(180deg, rgba(9, 10, 10, 0) 0%, rgba(15, 16, 16, 0.01) 100%);
 }
 
 .hero-grid {
   position: relative;
   z-index: 1;
-  min-height: 840px;
+  min-height: calc(100vh - 56px);
   align-items: center;
-  padding: 60px 0;
+  padding: 38px 0 52px;
 }
 
 .hero-copy {
-  grid-column: 4 / span 6;
+  grid-column: 3 / span 8;
   text-align: center;
 }
 
@@ -200,27 +210,28 @@ button {
 
 .hero h1 {
   font-family: "Frank Ruhl Libre", serif;
-  font-size: 12.5rem;
-  line-height: 0.85;
+  font-size: clamp(8rem, 15vw, 12.5rem);
+  line-height: 0.84;
   font-weight: 300;
-  margin: 1rem 0;
+  margin: 0.4rem 0 0.65rem;
 }
 
 .hero-divider {
   width: 1px;
-  height: 124px;
-  margin: 2.25rem auto;
+  height: 170px;
+  margin: 1.6rem auto 1.9rem;
   background: rgba(255, 255, 255, 0.7);
 }
 
 .hero-subtitle {
-  max-width: 460px;
+  max-width: 620px;
   margin: 0 auto;
-  font-size: var(--type-heading-desktop);
+  font-size: clamp(2rem, 3.1vw, 2.8rem);
   font-family: "Arimo", sans-serif;
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  line-height: 1.06;
+  letter-spacing: 0.02em;
 }
 
 .hero-actions {
@@ -267,23 +278,54 @@ button {
 }
 
 .intro-panels {
-  padding: 60px 40px 80px 40px;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 72px 40px 82px;
+  gap: 0;
+  background: #ffffff;
+  min-height: 100vh;
   position: relative;
   z-index: 2;
 }
 
 .info-card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
-  border-radius: 20px;
-  padding: 2.5rem;
-  display: grid;
-  gap: 1.25rem;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 22px 86px 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0;
 }
 
 .info-card-alt {
-  background: var(--surface);
+  border-left: 1px solid rgba(11, 10, 8, 0.35);
+}
+
+.intro-panels .card-copy {
+  margin-bottom: 24px;
+}
+
+.intro-panels .card-copy h2 {
+  margin: 0;
+  font-family: "Arimo", sans-serif;
+  font-size: clamp(2.35rem, 2.9vw, 3.3rem);
+  font-weight: 400;
+  line-height: 0.97;
+  text-transform: uppercase;
+}
+
+.intro-panels .card-copy p {
+  margin: 14px 0 0;
+  font-family: "Frank Ruhl Libre", serif;
+  font-size: 1.95rem;
+  font-weight: 300;
+  color: #44403c;
+  line-height: 1.2;
 }
 
 .card-copy h2,
@@ -315,47 +357,118 @@ button {
 }
 
 .info-card img {
+  width: min(100%, 560px);
   aspect-ratio: 16 / 10;
-  border-radius: 22px;
+  border-radius: 20px;
+}
+
+.intro-panels .panel-body {
+  max-width: 640px;
+  margin: 18px auto 24px;
+  font-family: "Frank Ruhl Libre", serif;
+  font-size: 1.1rem;
+  font-weight: 300;
+  line-height: 1.28;
+  color: #48433e;
+}
+
+.intro-panels .button {
+  min-height: 42px;
+  width: min(100%, 300px);
+  border-radius: 10px;
+  font-family: "Arimo", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .how-it-works {
-  padding: 80px 40px;
-  align-items: start;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  min-height: 760px;
+  align-items: stretch;
+  background: var(--background);
+  border-top: 1px solid rgba(11, 10, 8, 0.35);
+  border-bottom: 1px solid rgba(11, 10, 8, 0.35);
 }
 
 .process-heading {
-  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  padding: 40px 48px;
+  text-align: center;
 }
 
 .process-list {
   display: grid;
   gap: 0;
-  border-top: 1px solid var(--line);
+  border-left: 1px solid rgba(11, 10, 8, 0.35);
 }
 
 .process-step {
   display: grid;
-  grid-template-columns: 112px minmax(0, 1fr);
-  gap: 2rem;
-  padding: 2rem 0;
-  border-bottom: 1px solid var(--line);
+  grid-template-columns: minmax(220px, 0.95fr) minmax(0, 1.7fr);
+  gap: 0;
+  min-height: 190px;
+  padding: 0;
+  border-bottom: 1px solid rgba(11, 10, 8, 0.35);
+}
+
+.process-step:last-child {
+  border-bottom: 0;
 }
 
 .step-number {
-  font-size: 1rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--muted);
+  display: none;
 }
 
 .process-step h3,
 .product-meta h3 {
-  margin: 0 0 0.55rem;
+  margin: 0;
   font-family: "Arimo", sans-serif;
   font-size: var(--type-subheading-desktop);
   font-weight: 400;
   text-transform: uppercase;
+}
+
+.process-heading h2 {
+  max-width: 320px;
+  margin: 0;
+  font-size: clamp(3rem, 3.2vw, 3.5rem);
+  line-height: 0.95;
+}
+
+.process-heading p {
+  display: none;
+}
+
+.process-step > div {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.95fr) minmax(0, 1.7fr);
+  grid-column: 1 / -1;
+  align-items: center;
+  min-height: 190px;
+}
+
+.process-step > div h3 {
+  padding: 36px 56px;
+  text-align: center;
+}
+
+.process-step > div p {
+  max-width: 590px;
+  margin: 0;
+  padding: 36px 56px;
+  font-family: "Arimo", sans-serif;
+  font-size: 1rem;
+  line-height: 1.12;
+  color: var(--text);
 }
 
 .process-step p,
@@ -472,8 +585,8 @@ button {
 }
 
 .button-light {
-  background: #fff;
-  color: var(--accent);
+  background: var(--surface-blue);
+  color: var(--text);
   font-weight: 700;
   width: fit-content;
 }
