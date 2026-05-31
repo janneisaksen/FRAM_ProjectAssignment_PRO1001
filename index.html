@@ -114,12 +114,12 @@
             />
             <div class="product-meta">
               <div>
-                <h3>Organic oats</h3>
+                <h3>Oats</h3>
                 <p>1 kg</p>
               </div>
-              <strong>48 kr</strong>
+              <strong>48 kr / kg</strong>
             </div>
-            <button class="chip-button">Add to basket</button>
+            <button class="chip-button"><span class="chip-button-label">Add to basket</span><svg class="chip-button-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 19.5V4.5"></path><path d="M6 10.5L12 4.5L18 10.5"></path></svg></button>
           </article>
 
           <article class="product-card span-4">
@@ -132,9 +132,9 @@
                 <h3>Red onions</h3>
                 <p>0.5 kg</p>
               </div>
-              <strong>48 kr</strong>
+              <strong>48 kr / kg</strong>
             </div>
-            <button class="chip-button">Add to basket</button>
+            <button class="chip-button"><span class="chip-button-label">Add to basket</span><svg class="chip-button-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 19.5V4.5"></path><path d="M6 10.5L12 4.5L18 10.5"></path></svg></button>
           </article>
 
           <article class="product-card span-4">
@@ -147,32 +147,28 @@
                 <h3>Garlic</h3>
                 <p>0.2 kg</p>
               </div>
-              <strong>48 kr</strong>
+              <strong>48 kr / kg</strong>
             </div>
-            <button class="chip-button">Add to basket</button>
+            <button class="chip-button"><span class="chip-button-label">Add to basket</span><svg class="chip-button-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 19.5V4.5"></path><path d="M6 10.5L12 4.5L18 10.5"></path></svg></button>
           </article>
           </div>
         </section>
 
         <section class="newsletter" id="newsletter">
           <div class="newsletter-shell section-grid">
-            <div class="newsletter-copy span-5">
-              <p class="section-kicker section-kicker-light">FRAM</p>
-              <h2>Stay updated</h2>
-              <p>Sign up to hear about seasonal produce, farm stories, and curated deliveries before everyone else.</p>
-            </div>
+            <a class="footer-brand span-12" href="#hero">FRAM</a>
+            <div class="newsletter-divider span-12" aria-hidden="true"></div>
 
-            <form class="newsletter-form span-7">
-              <label>
-                <span>First name</span>
-                <input type="text" name="firstName" placeholder="First name" />
-              </label>
-              <label>
-                <span>Email address</span>
-                <input type="email" name="email" placeholder="Email address" />
-              </label>
-              <button class="button button-light" type="submit">Send</button>
-            </form>
+            <div class="newsletter-copy newsletter-content span-5">
+              <h2>Stay updated</h2>
+              <p>Sign up for our newsletter to be the first to know about new produce or other exciting news!</p>
+
+              <form class="newsletter-form">
+                <input type="text" name="firstName" placeholder="First name" aria-label="First name" />
+                <input type="email" name="email" placeholder="E-mail adress" aria-label="E-mail address" />
+                <button class="button button-light" type="submit">Send</button>
+              </form>
+            </div>
           </div>
         </section>
       </main>
