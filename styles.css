@@ -158,6 +158,78 @@ button {
   line-height: 1;
 }
 
+.back-link-bar {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding: 16px;
+  background: var(--surface);
+  border-bottom: 1px solid rgba(11, 10, 8, 0.14);
+  display: none;
+  justify-content: center;
+}
+
+.breadcrumbs {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  background: var(--background);
+  padding: 12px 24px;
+}
+
+.breadcrumbs-inner {
+  width: 100%;
+  font-family: "Arimo", sans-serif;
+  font-size: 0.875rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breadcrumbs-inner a {
+  color: var(--text);
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.breadcrumbs-inner a:hover {
+  color: var(--accent);
+}
+
+.breadcrumb-separator {
+  color: rgba(11, 10, 8, 0.35);
+}
+
+.breadcrumb-current {
+  color: var(--muted);
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 180ms ease;
+  border: none;
+}
+
+.back-button:hover {
+  background: rgba(11, 10, 8, 0.08);
+}
+
+.back-button svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--text);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .status-pill {
   grid-column: 12;
   justify-self: end;
@@ -976,6 +1048,22 @@ button {
     font-size: clamp(2.7rem, 3vw, 3.2rem);
   }
 
+  .breadcrumbs {
+    padding: 16px 40px;
+  }
+
+  .breadcrumbs-inner {
+    font-size: 0.95rem;
+  }
+
+  .back-link-bar {
+    padding: 16px 40px;
+  }
+
+  .back-link-bar .back-button {
+    max-width: min(1800px, calc(100vw - 80px));
+  }
+
   /* Newsletter */
   .newsletter-shell {
     padding: 32px 32px 104px;
@@ -1103,5 +1191,445 @@ button {
 
   .products-carousel {
     gap: 16px;
+  }
+}
+
+/* ============================================================
+   PRODUCE PAGE — HERO SECTION
+   ============================================================ */
+.produce-hero {
+  background: var(--background);
+  padding: 64px 24px 0;
+  border-bottom: 0;
+}
+
+.produce-header {
+  grid-column: 1 / -1;
+  text-align: left;
+}
+
+.produce-header h1 {
+  margin: 0;
+  font-family: "Arimo", sans-serif;
+  font-size: clamp(2rem, 4vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  color: var(--text);
+}
+
+/* ============================================================
+   PRODUCE INTRO SECTION
+   ============================================================ */
+.produce-intro {
+  background: var(--background);
+  padding: 18px 24px 34px;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--gutter);
+  width: 100%;
+  margin: 0;
+}
+
+.produce-description {
+  grid-column: 1 / -1;
+  max-width: 420px;
+  margin: 0;
+  font-family: "Arimo", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.23;
+  color: var(--text);
+  text-align: left;
+}
+
+.produce-products {
+  padding: 0 24px 44px;
+  background: var(--background);
+}
+
+.produce-products-shell {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0;
+  gap: 29px;
+}
+
+.produce-products .product-card {
+  grid-column: 1 / -1;
+  position: relative;
+}
+
+.produce-products .product-card img {
+  width: 100%;
+  aspect-ratio: 345 / 250;
+  border-radius: 14px;
+}
+
+.produce-products .product-meta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  column-gap: 14px;
+  row-gap: 2px;
+  padding: 8px 6px 0;
+}
+
+.produce-products .product-meta > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.produce-products .product-meta h3 {
+  font-size: 0.98rem;
+  line-height: 1.15;
+}
+
+.produce-products .product-meta p {
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+.produce-products .product-meta strong {
+  font-size: 0.95rem;
+  line-height: 1.15;
+  padding-top: 2px;
+}
+
+.produce-products .chip-button {
+  position: absolute;
+  right: 12px;
+  bottom: 52px;
+  margin-top: 0;
+  width: auto;
+  padding: 0.48rem 0.78rem;
+  font-size: 0.68rem;
+  z-index: 1;
+}
+
+/* ============================================================
+   PARTNERING FARMS SECTION
+   ============================================================ */
+.partnering-farms {
+  background: var(--surface);
+  padding: 90px 0;
+  border-top: 1px solid rgba(11, 10, 8, 0.14);
+  border-bottom: 1px solid rgba(11, 10, 8, 0.14);
+}
+
+.produce-farms {
+  background: var(--background);
+  padding: 0;
+  border-top: 1px solid rgba(11, 10, 8, 0.35);
+  border-bottom: 0;
+}
+
+.produce-farms .section-grid {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  gap: 0;
+}
+
+.partnering-farms .section-grid {
+  gap: var(--gutter);
+  align-items: stretch;
+}
+
+.farms-content {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 45px 24px;
+}
+
+.farms-content h2 {
+  margin: 0;
+  font-family: "Arimo", sans-serif;
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-weight: 400;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--text);
+}
+
+.farms-map {
+  grid-column: 1 / -1;
+  min-height: 350px;
+  padding: 0 24px;
+}
+
+.farms-map iframe {
+  border-radius: 14px;
+}
+
+.produce-farms .farms-content {
+  justify-content: center;
+  min-height: 294px;
+  padding: 40px 24px;
+  border-bottom: 1px solid rgba(11, 10, 8, 0.35);
+}
+
+.produce-farms .farms-content h2 {
+  max-width: 260px;
+  font-size: clamp(1.7rem, 4vw, 2.2rem);
+  line-height: 1.12;
+  text-align: center;
+}
+
+.produce-farms .farms-map {
+  padding: 28px 24px 34px;
+  min-height: 374px;
+}
+
+.produce-farms .farms-map iframe {
+  min-height: 346px;
+  aspect-ratio: 3 / 4;
+  border-radius: 14px;
+}
+
+.produce-newsletter .newsletter-shell {
+  width: 100%;
+  max-width: none;
+  padding: 26px 0 54px;
+  gap: 0;
+}
+
+.produce-newsletter .footer-brand {
+  margin: 0;
+  padding: 0 28px 14px;
+  font-size: 3rem;
+}
+
+.produce-newsletter .newsletter-divider {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.produce-newsletter .newsletter-content {
+  grid-column: 1 / -1;
+  padding: 34px 28px 0;
+  max-width: 330px;
+}
+
+.produce-newsletter h2 {
+  margin: 0 0 18px;
+  font-size: 1.95rem;
+}
+
+.produce-newsletter .newsletter-copy p {
+  max-width: 260px;
+  font-size: 0.98rem;
+  line-height: 1.28;
+}
+
+.produce-newsletter .newsletter-form {
+  width: 260px;
+  margin-top: 24px;
+  gap: 10px;
+}
+
+.produce-newsletter .newsletter-form input {
+  min-height: 28px;
+  height: 28px;
+  border-radius: 2px;
+  padding: 0 10px;
+  font-size: 0.75rem;
+}
+
+.newsletter-field-group {
+  position: relative;
+}
+
+.newsletter-field-group input {
+  width: 100%;
+  padding-right: 34px;
+}
+
+.newsletter-inline-submit {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 32px;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* ============================================================
+   DESKTOP BREAKPOINT FOR PRODUCE PAGE ≥ 900px
+   ============================================================ */
+@media (min-width: 900px) {
+  .produce-hero {
+    padding: 48px 0 0;
+  }
+
+  .produce-header h1 {
+    font-size: 2.3rem;
+  }
+
+  .produce-intro {
+    padding: 18px 40px 36px;
+    width: 100%;
+    margin: 0;
+  }
+
+  .produce-description {
+    font-size: 0.98rem;
+    line-height: 1.23;
+    max-width: 410px;
+  }
+
+  .produce-products {
+    padding: 0 40px 42px;
+  }
+
+  .produce-products-shell {
+    width: 100%;
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0;
+    gap: 29px;
+  }
+
+  .produce-products .product-card {
+    grid-column: span 4;
+  }
+
+  .produce-products .product-card img {
+    aspect-ratio: 1 / 0.94;
+    border-radius: 14px;
+  }
+
+  .produce-products .product-meta {
+    padding: 8px 6px 0;
+  }
+
+  .produce-products .product-meta h3 {
+    font-size: 1rem;
+  }
+
+  .produce-products .product-meta p {
+    font-size: 0.82rem;
+    padding-top: 0;
+  }
+
+  .produce-products .product-meta strong {
+    font-size: 0.98rem;
+    padding-top: 0;
+  }
+
+  .produce-products .chip-button {
+    right: 12px;
+    bottom: 52px;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.68rem;
+  }
+
+  .partnering-farms {
+    padding: 120px 0;
+  }
+
+  .produce-farms {
+    padding: 0;
+  }
+
+  .partnering-farms .section-grid {
+    gap: 40px;
+    align-items: center;
+  }
+
+  .produce-farms .section-grid {
+    gap: 0;
+    align-items: stretch;
+  }
+
+  .farms-content {
+    grid-column: span 6;
+    padding: 60px 40px;
+    justify-content: flex-start;
+  }
+
+  .farms-content h2 {
+    font-size: clamp(2.5rem, 3.5vw, 4rem);
+    text-align: left;
+    line-height: 1.15;
+  }
+
+  .farms-map {
+    grid-column: span 6;
+    min-height: 400px;
+    padding: 0;
+  }
+
+  .farms-map iframe {
+    border-radius: 20px;
+  }
+
+  .produce-farms .farms-content {
+    grid-column: 1 / span 4;
+    min-height: 546px;
+    padding: 0 40px;
+    border-right: 1px solid rgba(11, 10, 8, 0.35);
+    border-bottom: 0;
+  }
+
+  .produce-farms .farms-content h2 {
+    max-width: 320px;
+    font-size: 2.1rem;
+    line-height: 1.14;
+    text-align: center;
+  }
+
+  .produce-farms .farms-map {
+    grid-column: 5 / -1;
+    min-height: 546px;
+    padding: 56px 76px 56px 82px;
+  }
+
+  .produce-farms .farms-map iframe {
+    min-height: 397px;
+    aspect-ratio: 4 / 3;
+    border-radius: 14px;
+  }
+
+  .produce-newsletter .newsletter-shell {
+    padding: 28px 0 56px;
+  }
+
+  .produce-newsletter .footer-brand {
+    padding: 0 28px 16px;
+    font-size: 2.95rem;
+    margin-bottom: 0;
+  }
+
+  .produce-newsletter .newsletter-content {
+    padding: 36px 36px 0;
+    max-width: 360px;
+  }
+
+  .produce-newsletter h2 {
+    margin-bottom: 22px;
+    font-size: 2.05rem;
+  }
+
+  .produce-newsletter .newsletter-copy p {
+    max-width: 250px;
+    font-size: 0.98rem;
+    line-height: 1.28;
+  }
+
+  .produce-newsletter .newsletter-form {
+    width: 260px;
+    margin-top: 22px;
+    gap: 10px;
   }
 }
