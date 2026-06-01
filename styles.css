@@ -1,3 +1,6 @@
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
 :root {
   --background: #f7f2de;
   --surface: #ffffff;
@@ -8,31 +11,41 @@
   --accent: #dc4131;
   --accent-dark: #b73528;
   --success: #068f51;
-  --type-logo-desktop: 12.5rem;
+
+  /* Typography scale */
   --type-logo-mobile: 4.688rem;
-  --type-heading-desktop: 2.25rem;
+  --type-logo-desktop: 12.5rem;
   --type-heading-mobile: 1.5rem;
-  --type-subheading-desktop: 1.25rem;
+  --type-heading-desktop: 2.25rem;
   --type-subheading-mobile: 1.125rem;
-  --type-accent-desktop: 1.25rem;
+  --type-subheading-desktop: 1.25rem;
   --type-accent-mobile: 1rem;
+  --type-accent-desktop: 1.25rem;
   --type-body: 1rem;
-  --type-large-body-desktop: 1.25rem;
   --type-large-body-mobile: 1.125rem;
+  --type-large-body-desktop: 1.25rem;
+
+  /* Layout */
+  --container: calc(100vw - 32px);
+  --gutter: 16px;
+  --radius: 28px;
   --line: rgba(30, 26, 24, 0.14);
   --shadow: 0 22px 60px rgba(21, 18, 16, 0.12);
-  --container: min(1800px, calc(100vw - 80px));
-  --gutter: 24px;
-  --radius: 28px;
 }
 
-* {
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
   background: var(--background);
+  overflow-x: hidden;
   overscroll-behavior-y: none;
 }
 
@@ -41,6 +54,7 @@ body {
   font-family: "Arimo", sans-serif;
   color: var(--text);
   background: var(--background);
+  overflow-x: hidden;
   overscroll-behavior-y: none;
 }
 
@@ -61,47 +75,45 @@ button {
   background: none;
 }
 
+/* ============================================================
+   PAGE SHELL
+   ============================================================ */
 .page-shell {
   width: 100%;
   max-width: 1920px;
   margin: 0 auto;
   min-height: 100vh;
   background: var(--background);
+  overflow-x: clip;
 }
 
+/* ============================================================
+   GRID SYSTEM  — mobile first
+   ============================================================ */
 .section-grid {
   width: var(--container);
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--gutter);
-  padding: 0 40px;
 }
 
-.span-4 {
-  grid-column: span 4;
-}
-
-.span-5 {
-  grid-column: span 5;
-}
-
-.span-6 {
-  grid-column: span 6;
-}
-
-.span-7 {
-  grid-column: span 7;
-}
-
+/* Mobile: all spans collapse to full width */
+.span-4,
+.span-5,
+.span-6,
+.span-7,
 .span-8 {
-  grid-column: span 8;
+  grid-column: 1 / -1;
 }
 
 .span-12 {
   grid-column: 1 / -1;
 }
 
+/* ============================================================
+   TOPBAR
+   ============================================================ */
 .topbar {
   align-items: center;
   min-height: 56px;
@@ -109,6 +121,7 @@ button {
   width: 100%;
   max-width: none;
   margin: 0;
+  padding: 0 16px;
 }
 
 .menu-button,
@@ -134,12 +147,12 @@ button {
 }
 
 .brand-mark {
-  grid-column: 6 / span 2;
+  grid-column: 5 / span 4;
   justify-self: center;
   color: inherit;
   text-decoration: none;
   font-family: "Frank Ruhl Libre", serif;
-  font-size: 2.95rem;
+  font-size: 1.7rem;
   font-weight: 300;
   letter-spacing: 0.02em;
   line-height: 1;
@@ -148,14 +161,14 @@ button {
 .status-pill {
   grid-column: 12;
   justify-self: end;
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
   border-radius: 50%;
   background: var(--success);
   color: var(--text);
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   text-align: center;
   display: inline-flex;
@@ -163,9 +176,14 @@ button {
   justify-content: center;
 }
 
+/* ============================================================
+   HERO — mobile first
+   ============================================================ */
 .hero {
   position: relative;
-  min-height: calc(100vh - 56px);
+  aspect-ratio: 391 / 579;
+  min-height: calc(100svh - 56px);
+  overflow: hidden;
   color: #fff;
   background-image: linear-gradient(rgba(32, 34, 33, 0.005), rgba(32, 34, 33, 0.005)),
     url("https://images.unsplash.com/photo-1713244649594-0c2de54f2eaa?q=80&w=1750&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
@@ -176,57 +194,46 @@ button {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(9, 10, 10, 0) 0%, rgba(15, 16, 16, 0.01) 100%);
+  background: linear-gradient(180deg, rgba(9, 10, 10, 0) 0%, rgba(15, 16, 16, 0.18) 100%);
 }
 
 .hero-grid {
   position: relative;
   z-index: 1;
-  min-height: calc(100vh - 56px);
-  align-items: center;
-  padding: 38px 0 52px;
+  min-height: calc(100svh - 56px);
+  align-items: stretch;
+  padding: 125px 0;
 }
 
 .hero-copy {
-  grid-column: 3 / span 8;
+  grid-column: 1 / -1;
+  min-height: calc(100svh - 56px - 250px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-}
-
-.eyebrow,
-.section-kicker {
-  margin: 0 0 1rem;
-  font-family: "Frank Ruhl Libre", serif;
-  font-size: var(--type-accent-desktop);
-  font-weight: 300;
-}
-
-.hero h1,
-.section-header h2,
-.newsletter h2,
-.info-card h2,
-.process-heading h2 {
-  margin: 0;
 }
 
 .hero h1 {
   font-family: "Frank Ruhl Libre", serif;
-  font-size: clamp(8rem, 15vw, 12.5rem);
+  font-size: min(var(--type-logo-mobile), 18vw);
   line-height: 0.84;
   font-weight: 300;
-  margin: 0.4rem 0 0.65rem;
+  margin: 0;
 }
 
 .hero-divider {
   width: 2px;
-  height: 170px;
-  margin: 1.6rem auto 1.9rem;
+  flex: 1;
+  min-height: 120px;
+  margin: 2.5rem auto;
   background: #fff;
 }
 
 .hero-subtitle {
-  max-width: 620px;
+  max-width: 300px;
   margin: 0 auto;
-  font-size: clamp(2rem, 3.1vw, 2.8rem);
+  font-size: var(--type-heading-mobile);
   font-family: "Arimo", sans-serif;
   font-weight: 400;
   text-transform: uppercase;
@@ -234,19 +241,14 @@ button {
   letter-spacing: 0.02em;
 }
 
-.hero-actions {
-  margin-top: 2.5rem;
-  display: inline-flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
+/* ============================================================
+   BUTTONS
+   ============================================================ */
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 52px;
+  min-height: 48px;
   padding: 0 1.5rem;
   border-radius: 999px;
   text-decoration: none;
@@ -277,16 +279,29 @@ button {
   color: #fff;
 }
 
+.button-light {
+  background: var(--surface-blue);
+  color: var(--text);
+  width: 100%;
+  min-height: 48px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* ============================================================
+   INTRO PANELS — mobile first
+   ============================================================ */
 .intro-panels {
   width: 100%;
   max-width: none;
   margin: 0;
-  padding: 0 40px;
+  padding: 0;
   gap: 0;
+  display: block;
   background: #ffffff;
-  min-height: 100vh;
-  position: relative;
-  z-index: 2;
 }
 
 .info-card {
@@ -294,81 +309,57 @@ button {
   border: 0;
   box-shadow: none;
   border-radius: 0;
-  padding: 94px 86px 108px;
+  padding: 90px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 0;
+  gap: 44px;
+}
+
+.info-card + .info-card {
+  border-top: 1px solid rgba(11, 10, 8, 0.35);
 }
 
 .info-card-alt {
-  border-left: 1px solid rgba(11, 10, 8, 0.35);
+  border-left: none;
 }
 
 .intro-panels .card-copy {
-  margin-bottom: 24px;
+  margin-bottom: 0;
 }
 
 .intro-panels .card-copy h2 {
   margin: 0;
   font-family: "Arimo", sans-serif;
-  font-size: clamp(2.35rem, 2.9vw, 3.3rem);
+  font-size: clamp(1.5rem, 5.5vw, 2.2rem);
   font-weight: 400;
   line-height: 0.97;
   text-transform: uppercase;
 }
 
 .intro-panels .card-copy p {
-  margin: 14px 0 0;
+  margin: 10px 0 0;
   font-family: "Frank Ruhl Libre", serif;
-  font-size: 1.95rem;
+  font-size: 1.2rem;
   font-weight: 300;
   color: #44403c;
   line-height: 1.2;
 }
 
-.card-copy h2,
-.process-heading h2,
-.section-header h2,
-.newsletter h2 {
-  font-family: "Arimo", sans-serif;
-  font-size: var(--type-heading-desktop);
-  font-weight: 400;
-  line-height: 1.02;
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-}
-
-.card-copy p,
-.process-heading p,
-.process-step p,
-.newsletter-copy p {
-  font-family: "Arimo", sans-serif;
-  font-size: var(--type-body);
-  color: var(--muted);
-  line-height: 1.7;
-}
-
-.card-copy > p:last-child,
-.newsletter-copy > p:last-child {
-  font-size: var(--type-large-body-desktop);
-  line-height: 1.45;
-}
-
 .info-card img {
-  width: min(100%, 560px);
+  width: 100%;
   aspect-ratio: 16 / 10;
-  border-radius: 20px;
+  border-radius: 14px;
 }
 
 .intro-panels .panel-body {
-  max-width: 640px;
-  margin: 18px auto 24px;
+  max-width: 540px;
+  margin: 0 auto;
   font-family: "Frank Ruhl Libre", serif;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 300;
-  line-height: 1.28;
+  line-height: 1.4;
   color: #48433e;
 }
 
@@ -383,14 +374,17 @@ button {
   text-transform: none;
 }
 
+/* ============================================================
+   HOW IT WORKS — mobile first
+   ============================================================ */
 .how-it-works {
   width: 100%;
   max-width: none;
   margin: 0;
   padding: 0;
   gap: 0;
-  min-height: 760px;
-  align-items: stretch;
+  display: flex;
+  flex-direction: column;
   background: var(--background);
   border-top: 1px solid rgba(11, 10, 8, 0.35);
   border-bottom: 1px solid rgba(11, 10, 8, 0.35);
@@ -400,22 +394,35 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100%;
-  padding: 40px 48px;
+  padding: 60px 45px 45px 45px;
   text-align: center;
 }
 
+.process-heading h2 {
+  max-width: 260px;
+  margin: 0;
+  font-family: "Arimo", sans-serif;
+  font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+  font-weight: 400;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.process-heading p {
+  display: none;
+}
+
 .process-list {
-  display: grid;
-  gap: 0;
-  border-left: 1px solid rgba(11, 10, 8, 0.35);
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(11, 10, 8, 0.35);
+  padding: 0;
 }
 
 .process-step {
-  display: grid;
-  grid-template-columns: minmax(220px, 0.95fr) minmax(0, 1.7fr);
-  gap: 0;
-  min-height: 190px;
+  display: flex;
+  flex-direction: row;
+  padding: 60px 16px 18px 8px;
   padding: 0;
   border-bottom: 1px solid rgba(11, 10, 8, 0.35);
 }
@@ -425,107 +432,141 @@ button {
 }
 
 .step-number {
-  display: none;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 52px;
+  padding: 18px 0 18px 16px;
+  font-family: "Frank Ruhl Libre", serif;
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.9;
 }
 
 .process-step h3 {
-  margin: 0;
+  margin: 0 0 6px;
   font-family: "Arimo", sans-serif;
-  font-size: var(--type-subheading-desktop);
+  font-size: var(--type-subheading-mobile);
   font-weight: 400;
   text-transform: uppercase;
 }
 
-.process-heading h2 {
-  max-width: 320px;
-  margin: 0;
-  font-size: clamp(3rem, 3.2vw, 3.5rem);
-  line-height: 0.95;
-}
-
-.process-heading p {
-  display: none;
-}
-
 .process-step > div {
-  display: grid;
-  grid-template-columns: minmax(220px, 0.95fr) minmax(0, 1.7fr);
-  grid-column: 1 / -1;
-  align-items: center;
-  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  padding: 45px;
 }
 
 .process-step > div h3 {
-  padding: 36px 56px;
-  text-align: center;
+  padding: 0;
+  text-align: left;
 }
 
 .process-step > div p {
-  max-width: 590px;
   margin: 0;
-  padding: 36px 56px;
   font-family: "Arimo", sans-serif;
-  font-size: 1rem;
-  line-height: 1.12;
-  color: var(--text);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--muted);
 }
 
-.process-step p,
-.product-meta strong,
-.newsletter-form span,
-.product-meta p,
-.chip-button {
-  font-size: var(--type-body);
+.process-step > div a {
+  font-family: "Arimo", sans-serif;
+  font-weight: 300;
+  color: rgba(0, 0, 0, 0.7);
+  text-decoration: underline;
+  display: inline-block;
+  margin-top: 1.25rem;
+  padding-top: 0;
+  font-variation-settings: "opsz" 70;
 }
 
+.process-step > div a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   PRODUCTS — mobile first (2-column grid)
+   ============================================================ */
 .products {
-  padding: 0;
+  padding: 90px 0;
   background: var(--surface);
-  min-height: 100vh;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
 }
 
 .products-shell {
-  padding: 100px 40px 88px;
+  padding: 0 16px;
+  gap: var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  width: calc(100vw - 32px);
+  margin: 0 auto;
 }
 
 .section-header {
   margin-bottom: 0.5rem;
 }
 
-.product-card {
-  position: relative;
-}
-
 .products .section-header {
-  margin-bottom: 2.1rem;
+  grid-column: 1 / -1;
+  margin-bottom: 1.4rem;
 }
 
 .products .section-header h2 {
-  font-size: clamp(2.7rem, 3vw, 3.2rem);
+  font-family: "Arimo", sans-serif;
+  font-size: clamp(1.5rem, 5.5vw, 2.2rem);
   font-weight: 400;
   line-height: 1;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.products-carousel {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 250px;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+}
+
+.products-carousel .product-card {
+  grid-column: auto;
+  width: 250px;
+  scroll-snap-align: start;
+}
+
+/* 2 columns on mobile */
+.product-card {
+  grid-column: span 6;
+  position: relative;
 }
 
 .product-card img {
-  aspect-ratio: 1.08 / 1;
-  border-radius: 24px;
-  box-shadow: none;
+  aspect-ratio: 250 / 321;
+  border-radius: 14px;
+  width: 100%;
 }
 
 .product-meta {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1.5rem;
-  padding: 1rem 0 0;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.55rem 0 0;
 }
 
 .product-meta h3 {
   margin: 0;
   font-family: "Arimo", sans-serif;
-  font-size: clamp(2rem, 2vw, 2.2rem);
+  font-size: 0.95rem;
   font-weight: 400;
-  line-height: 1.08;
+  line-height: 1.1;
   text-transform: none;
 }
 
@@ -533,39 +574,37 @@ button {
   margin: 0;
   font-family: "Arimo", sans-serif;
   color: var(--muted);
-  font-size: 1.05rem;
+  font-size: 0.8rem;
   line-height: 1.25;
-  padding-top: 0.55rem;
 }
 
 .product-meta strong {
-  padding-top: 0.1rem;
   font-family: "Arimo", sans-serif;
-  font-size: clamp(1.95rem, 1.9vw, 2.1rem);
+  font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.05;
   white-space: nowrap;
 }
 
 .chip-button {
-  position: absolute;
-  right: 0.95rem;
-  bottom: 6.2rem;
-  padding: 0.78rem 1rem 0.78rem 1.08rem;
+  margin-top: 0.5rem;
+  position: static;
+  padding: 0.55rem 0.8rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.42rem;
+  gap: 0.3rem;
   border-radius: 999px;
   background: rgba(11, 10, 8, 0.92);
   color: #fff;
   font-family: "Arimo", sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.75rem;
   font-weight: 400;
   text-transform: none;
   letter-spacing: 0;
   line-height: 1;
   cursor: pointer;
+  width: 100%;
 }
 
 .chip-button-label {
@@ -573,8 +612,8 @@ button {
 }
 
 .chip-button-arrow {
-  width: 0.98rem;
-  height: 0.98rem;
+  width: 0.85rem;
+  height: 0.85rem;
   flex: 0 0 auto;
   overflow: visible;
   stroke: currentColor;
@@ -583,6 +622,9 @@ button {
   stroke-linejoin: round;
 }
 
+/* ============================================================
+   NEWSLETTER / FOOTER — mobile first
+   ============================================================ */
 .newsletter {
   padding: 0;
   background: var(--accent);
@@ -590,61 +632,71 @@ button {
 }
 
 .newsletter-shell {
-  padding: 32px 32px 104px;
+  padding: 24px 16px 64px;
   row-gap: 0;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--gutter);
+  width: calc(100vw - 32px);
+  margin: 0 auto;
 }
 
 .footer-brand {
+  grid-column: 1 / -1;
   color: #fff;
   text-decoration: none;
   font-family: "Frank Ruhl Libre", serif;
-  font-size: clamp(3.25rem, 4vw, 4.25rem);
+  font-size: 2.4rem;
   font-weight: 300;
   line-height: 1;
-  margin: 0 0 26px;
+  margin: 0 0 20px;
+  display: block;
 }
 
 .newsletter-divider {
+  grid-column: 1 / -1;
   height: 1px;
   background: #fff;
 }
 
 .newsletter-content {
-  grid-column: 1 / span 5;
-  padding-top: 74px;
+  grid-column: 1 / -1;
+  padding-top: 36px;
 }
 
 .newsletter h2 {
-  margin: 0 0 1.65rem;
-  font-size: clamp(3rem, 3.2vw, 3.4rem);
+  margin: 0 0 1rem;
+  font-family: "Arimo", sans-serif;
+  font-size: clamp(1.5rem, 5.5vw, 2.2rem);
   font-weight: 400;
   line-height: 1;
+  text-transform: uppercase;
 }
 
 .newsletter-copy p {
-  max-width: 520px;
+  max-width: 480px;
   margin: 0;
   color: rgba(255, 255, 255, 0.95);
   font-family: "Frank Ruhl Libre", serif;
-  font-size: clamp(1.35rem, 1.65vw, 1.8rem);
+  font-size: 1rem;
   font-weight: 400;
-  line-height: 1.12;
+  line-height: 1.35;
 }
 
 .newsletter-form {
   display: grid;
   align-content: start;
-  gap: 1rem;
-  width: min(100%, 526px);
-  margin-top: 2.4rem;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 1.6rem;
 }
 
 .newsletter-form input {
-  min-height: 52px;
+  min-height: 48px;
   border: none;
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.98);
-  padding: 0 1.15rem;
+  padding: 0 1rem;
   color: var(--text);
   font-size: 1rem;
 }
@@ -653,158 +705,403 @@ button {
   color: #707070;
 }
 
-.button-light {
-  background: var(--surface-blue);
-  color: var(--text);
-  width: 100%;
-  min-height: 48px;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-weight: 400;
-  text-transform: none;
-  letter-spacing: 0;
+/* ============================================================
+   TYPOGRAPHY HELPERS
+   ============================================================ */
+.eyebrow,
+.section-kicker {
+  margin: 0 0 1rem;
+  font-family: "Frank Ruhl Libre", serif;
+  font-size: var(--type-accent-mobile);
+  font-weight: 300;
 }
 
-@media (max-width: 1200px) {
+/* ============================================================
+   DESKTOP BREAKPOINT  ≥ 900px
+   ============================================================ */
+@media (min-width: 900px) {
   :root {
-    --container: min(100vw - 40px, 1200px);
+    --container: min(1800px, calc(100vw - 80px));
+    --gutter: 24px;
+  }
+
+  /* Restore grid spans */
+  .span-4 { grid-column: span 4; }
+  .span-5 { grid-column: span 5; }
+  .span-6 { grid-column: span 6; }
+  .span-7 { grid-column: span 7; }
+  .span-8 { grid-column: span 8; }
+
+  /* Topbar */
+  .topbar {
+    min-height: 56px;
+    padding: 0 40px;
+  }
+
+  .brand-mark {
+    grid-column: 6 / span 2;
+    font-size: 2.95rem;
+  }
+
+  .status-pill {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    font-size: 1rem;
+  }
+
+  /* Hero */
+  .hero,
+  .hero-grid {
+    min-height: calc(100vh - 56px);
+  }
+
+  .hero {
+    aspect-ratio: auto;
+  }
+
+  .hero-grid {
+    min-height: calc(100vh - 56px);
+    padding: 100px 0;
   }
 
   .hero-copy {
     grid-column: 3 / span 8;
-  }
-
-  .process-heading,
-  .process-list,
-  .span-4,
-  .span-5,
-  .span-6,
-  .span-7,
-  .span-8 {
-    grid-column: 1 / -1;
-  }
-
-  .process-heading {
-    position: static;
-  }
-
-  .products,
-  .how-it-works,
-  .intro-panels {
-    padding-top: 72px;
-    padding-bottom: 72px;
-  }
-
-  .product-card {
-    max-width: 560px;
-  }
-
-  .newsletter-shell {
-    padding: 32px 32px 88px;
-  }
-
-  .newsletter-content {
-    grid-column: 1 / span 7;
-  }
-}
-
-@media (max-width: 768px) {
-  :root {
-    --container: calc(100vw - 32px);
-    --gutter: 16px;
-  }
-
-  .topbar {
-    min-height: 72px;
-  }
-
-  .brand-mark {
-    grid-column: 5 / span 4;
-    font-size: 1.7rem;
-  }
-
-  .status-pill {
-    min-width: 56px;
-    padding-inline: 0.75rem;
-  }
-
-  .hero,
-  .hero-grid {
-    min-height: 720px;
-  }
-
-  .hero-copy {
-    grid-column: 1 / -1;
-  }
-
-  .hero-subtitle {
-    font-size: var(--type-heading-mobile);
-  }
-
-  .card-copy h2,
-  .process-heading h2,
-  .section-header h2,
-  .newsletter h2 {
-    font-size: var(--type-heading-mobile);
+    min-height: calc(100vh - 56px - 200px);
   }
 
   .hero h1 {
-    font-size: min(var(--type-logo-mobile), 18vw);
+    font-size: clamp(8rem, 15vw, 12.5rem);
+  }
+
+  .hero-divider {
+    min-height: 170px;
+    margin: 2.6rem auto;
+  }
+
+  .hero-subtitle {
+    max-width: 620px;
+    font-size: clamp(2rem, 3.1vw, 2.8rem);
+  }
+
+  /* Intro panels */
+  .intro-panels {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    padding: 0 40px;
+    min-height: 100vh;
+  }
+
+  .info-card {
+    padding: 90px 86px;
+    gap: 44px;
+  }
+
+  .info-card + .info-card {
+    border-top: none;
+  }
+
+  .info-card-alt {
+    border-left: 1px solid rgba(11, 10, 8, 0.35);
+  }
+
+  .intro-panels .card-copy h2 {
+    font-size: clamp(2.35rem, 2.9vw, 3.3rem);
+  }
+
+  .intro-panels .card-copy {
+    margin-bottom: 0;
+  }
+
+  .intro-panels .card-copy p {
+    font-size: 1.95rem;
+  }
+
+  .intro-panels .panel-body {
+    margin: 0 auto;
+  }
+
+  .info-card img {
+    width: min(100%, 560px);
+    border-radius: 20px;
+  }
+
+  /* How it works */
+  .how-it-works {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    flex-direction: unset;
+    min-height: 760px;
+    align-items: stretch;
+  }
+
+  .process-heading {
+    grid-column: span 4;
+    padding: 40px 48px;
+  }
+
+  .process-heading h2 {
+    max-width: 320px;
+    font-size: clamp(3rem, 3.2vw, 3.5rem);
+  }
+
+  .process-list {
+    grid-column: span 8;
+    flex-direction: unset;
+    display: grid;
+    border-left: 1px solid rgba(11, 10, 8, 0.35);
+    border-top: none;
+  }
+
+  .step-number {
+    display: none;
+  }
+
+  .process-step > div {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.95fr) minmax(0, 1.7fr);
+    grid-column: 1 / -1;
+    align-items: center;
+    min-height: auto;
+    padding: 60px 45px 60px 45px;
+    row-gap: 0;
+    flex-direction: unset;
+  }
+
+  .process-step > div h3 {
+    padding: 0 56px;
+    text-align: left;
+    font-size: var(--type-subheading-desktop);
+  }
+
+  .process-step:first-child > div h3 {
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+
+  .process-step > div p {
+    max-width: 590px;
+    padding: 0 56px;
+    font-size: 1rem;
+    line-height: 1.12;
+    color: var(--text);
+  }
+
+  .process-step:first-child > div a {
+    grid-column: 2;
+    display: inline-block;
+    padding: 0 56px;
+    margin-top: 6px;
+  }
+
+  .process-step:first-child > div p {
+    padding-bottom: 0;
+  }
+
+  .process-step > div a {
+    grid-column: 2;
+    max-width: 590px;
+    margin-top: 0;
+    padding: 0 56px;
+    font-size: 1rem;
+    line-height: 1.12;
+  }
+
+  /* Products */
+  .products-shell {
+    padding: 0 40px;
+    width: min(1800px, calc(100vw - 80px));
+  }
+
+  .products-carousel {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: var(--gutter);
+    overflow: visible;
+    scroll-snap-type: none;
+    padding-bottom: 0;
+  }
+
+  .products-carousel .product-card {
+    grid-column: auto;
+    flex: 1 1 0;
+    min-width: 0;
+    scroll-snap-align: none;
+  }
+
+  .product-card {
+    grid-column: auto;
+  }
+
+  .product-card img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 24px;
+  }
+
+  .product-meta {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1rem 0 0;
+  }
+
+  .product-meta h3 {
+    font-size: clamp(2rem, 2vw, 2.2rem);
+  }
+
+  .product-meta p {
+    font-size: 1.05rem;
+    padding-top: 0.55rem;
+  }
+
+  .product-meta strong {
+    font-size: clamp(1.95rem, 1.9vw, 2.1rem);
+    padding-top: 0.1rem;
+  }
+
+  .chip-button {
+    position: absolute;
+    right: 0.95rem;
+    bottom: 6.2rem;
+    margin-top: 0;
+    width: auto;
+    padding: 0.78rem 1rem 0.78rem 1.08rem;
+    font-size: 0.95rem;
+  }
+
+  .products .section-header h2 {
+    font-size: clamp(2.7rem, 3vw, 3.2rem);
+  }
+
+  /* Newsletter */
+  .newsletter-shell {
+    padding: 32px 32px 104px;
+    width: min(1800px, calc(100vw - 80px));
+  }
+
+  .newsletter-content {
+    grid-column: 1 / span 5;
+    padding-top: 74px;
+  }
+
+  .footer-brand {
+    font-size: clamp(3.25rem, 4vw, 4.25rem);
+    margin-bottom: 26px;
+  }
+
+  .newsletter h2 {
+    font-size: clamp(3rem, 3.2vw, 3.4rem);
+  }
+
+  .newsletter-copy p {
+    font-size: clamp(1.35rem, 1.65vw, 1.8rem);
+    line-height: 1.12;
+  }
+
+  .newsletter-form {
+    width: min(100%, 526px);
+    margin-top: 2.4rem;
+    gap: 1rem;
   }
 
   .eyebrow,
   .section-kicker {
-    font-size: var(--type-accent-mobile);
+    font-size: var(--type-accent-desktop);
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1400px) {
+  .intro-panels {
+    padding: 0 20px;
   }
 
-  .process-step h3,
-  .product-meta h3 {
-    font-size: var(--type-subheading-mobile);
+  .info-card {
+    min-height: 100vh;
+    padding: 56px 32px;
+    justify-content: center;
   }
 
-  .card-copy > p:last-child,
-  .newsletter-copy > p:last-child {
-    font-size: var(--type-large-body-mobile);
+  .intro-panels .card-copy,
+  .intro-panels .panel-body,
+  .intro-panels .button {
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .process-step {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
+  .intro-panels .card-copy p {
+    font-size: 1.45rem;
   }
 
-  .chip-button {
-    position: static;
-    margin-top: 1rem;
+  .intro-panels .panel-body {
+    max-width: 420px;
   }
 
-  .product-meta strong {
-    font-size: 1.25rem;
+  .intro-panels .button {
+    width: min(100%, 240px);
   }
 
-  .newsletter-shell {
-    padding: 24px 16px 72px;
+  .info-card img {
+    width: min(100%, 480px);
   }
 
-  .footer-brand,
-  .newsletter-content {
-    grid-column: 1 / -1;
+  .how-it-works {
+    min-height: 100vh;
   }
 
-  .footer-brand {
-    margin-bottom: 20px;
+  .process-heading {
+    padding: 32px 24px;
   }
 
-  .newsletter-content {
-    padding-top: 44px;
+  .process-step > div {
+    min-height: 150px;
   }
 
-  .newsletter-copy p {
-    font-size: 1.15rem;
-    line-height: 1.22;
+  .process-step > div h3,
+  .process-step > div p {
+    padding-left: 24px;
+    padding-right: 24px;
   }
 
-  .newsletter-form {
+  .process-step:first-child > div h3 {
+
+  .process-step:first-child > div a {
+    grid-column: 2;
+    display: inline-block;
+    padding: 0 56px;
+    margin-top: 10px;
+  }
     width: 100%;
-    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    justify-self: center;
+    padding-left: 24px;
+    padding-right: 24px;
+    text-align: center;
+  }
+
+  .process-step:first-child > div p {
+    padding-bottom: 8px;
+  }
+
+  .process-step > div a {
+    padding: 0 24px 24px;
+  }
+
+  .products {
+    min-height: 100vh;
+  }
+
+  .products-shell {
+    padding: 0 20px;
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  .products-carousel {
+    gap: 16px;
   }
 }
