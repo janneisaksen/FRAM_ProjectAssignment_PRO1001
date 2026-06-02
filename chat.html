@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat — FRAM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;600;700&family=Frank+Ruhl+Libre:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="menu.js" defer></script>
+    <script src="chatbot.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell chat-page">
+      <header class="topbar section-grid">
+        <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="siteMenu" data-menu-open>
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a class="brand-mark" href="index.html">FRAM</a>
+        <span class="status-pill" aria-label="Basket count">0</span>
+      </header>
+
+      <nav class="site-menu" id="siteMenu" aria-hidden="true" data-site-menu>
+        <button class="site-menu__backdrop" type="button" aria-label="Close menu" data-menu-close></button>
+        <div class="site-menu__panel">
+          <div class="site-menu__top">
+            <button class="site-menu__close" type="button" aria-label="Close menu" data-menu-close>×</button>
+            <a class="site-menu__brand" href="index.html">FRAM</a>
+          </div>
+
+          <div class="site-menu__links">
+            <a href="products.html">PRODUCTS</a>
+            <a href="chat.html">CHAT</a>
+          </div>
+
+          <a class="site-menu__checkout" href="#">CHECKOUT</a>
+        </div>
+      </nav>
+
+      <main>
+        <section class="chat-stage" aria-label="Chat with FRAM">
+          <div class="chatbot-shell" data-chatbot>
+            <div class="chatbot-log" role="log" aria-live="polite" aria-label="Conversation" data-chat-log>
+              <div class="chat-row chat-row--bot">
+                <span class="chat-author">FRAM</span>
+                <p class="chat-bubble chat-bubble--bot">What can I help you with today?</p>
+              </div>
+            </div>
+
+            <p class="chat-feedback" data-chat-feedback role="status" aria-live="polite"></p>
+
+            <form class="chatbot-form" data-chat-form>
+              <label class="chatbot-sr-only" for="chatInput">Message FRAM</label>
+              <input
+                id="chatInput"
+                type="text"
+                class="chatbot-input"
+                name="message"
+                placeholder="Write your message"
+                autocomplete="off"
+                maxlength="360"
+                required
+                data-chat-input
+              />
+              <button class="chatbot-send" type="submit" aria-label="Send message" data-chat-send>
+                <svg class="chip-button-arrow chat-send-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 19.5V4.5"></path>
+                  <path d="M6 10.5L12 4.5L18 10.5"></path>
+                </svg>
+              </button>
+            </form>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
