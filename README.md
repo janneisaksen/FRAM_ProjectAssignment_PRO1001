@@ -18,3 +18,18 @@ Open `index.html` directly in the browser, or use a local live server in VS Code
 - Visual direction is inspired by the provided FRAM concept with a more polished desktop layout.
 - Typography uses `Frank Ruhl Libre` for logo/accent text and `Arimo` for headings, interface, and body text.
 - Brand colors follow the supplied palette: `#F7F2ED`, `#FFFFFF`, `#0B0A08`, `#DC4131`, `#E1EAF0`, and `#068F51`.
+
+## Produce map
+
+- The produce page uses Leaflet with OpenStreetMap tiles for an interactive map.
+- Three farm locations are hardcoded in `farm-map.js` with fixed coordinates: Braastad Gaard, Haakenstad Gård, and Øvre Kjekshus Gård.
+- A single async `fetch()` request calls the Overpass API to enrich the map with nearby OSM place names; it does not determine the farm coordinates.
+- If the API fails, the map still loads with the fixed markers and shows a user-facing error state.
+
+## Limitations and considerations
+
+- Farm coordinates are fixed in the code and may need manual adjustment if exact pin positions should change.
+- OpenStreetMap/Overpass data can be incomplete, outdated, or unevenly mapped depending on the area and contributor activity.
+- The external API is rate-limited and dependent on network availability, so enrichment is treated as optional.
+- The map only uses public map data and does not store personal user data.
+- Because the enrichment data comes from community-maintained sources, names and nearby points of interest may reflect mapping bias or local coverage gaps.

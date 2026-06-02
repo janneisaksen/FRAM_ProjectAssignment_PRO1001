@@ -11,18 +11,36 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <script src="menu.js" defer></script>
   </head>
   <body>
     <div class="page-shell">
       <header class="topbar section-grid">
-        <button class="menu-button" aria-label="Open menu">
+        <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="siteMenu" data-menu-open>
           <span></span>
           <span></span>
           <span></span>
         </button>
         <a class="brand-mark" href="index.html">FRAM</a>
-        <a class="status-pill" href="#newsletter">0</a>
+        <span class="status-pill" aria-label="Basket count">0</span>
       </header>
+
+      <nav class="site-menu" id="siteMenu" aria-hidden="true" data-site-menu>
+        <button class="site-menu__backdrop" type="button" aria-label="Close menu" data-menu-close></button>
+        <div class="site-menu__panel">
+          <div class="site-menu__top">
+            <button class="site-menu__close" type="button" aria-label="Close menu" data-menu-close>×</button>
+            <a class="site-menu__brand" href="index.html">FRAM</a>
+          </div>
+
+          <div class="site-menu__links">
+            <a href="products.html">PRODUCTS</a>
+            <a href="#newsletter">CHAT</a>
+          </div>
+
+          <a class="site-menu__checkout" href="#">CHECKOUT</a>
+        </div>
+      </nav>
 
       <main>
         <section class="hero" id="hero">
@@ -52,7 +70,7 @@
 
           <article class="info-card span-6 info-card-alt">
             <div class="card-copy">
-              <h2>Ask us about anything</h2>
+              <h2>Ask us about<br />anything</h2>
               <p>All your questions answered</p>
             </div>
             <img

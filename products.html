@@ -10,19 +10,43 @@
       href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;600;700&family=Frank+Ruhl+Libre:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
     <link rel="stylesheet" href="styles.css" />
+    <script src="menu.js" defer></script>
   </head>
   <body>
     <div class="page-shell">
       <header class="topbar section-grid">
-        <button class="menu-button" aria-label="Open menu">
+        <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="siteMenu" data-menu-open>
           <span></span>
           <span></span>
           <span></span>
         </button>
         <a class="brand-mark" href="index.html">FRAM</a>
-        <a class="status-pill" href="#newsletter">0</a>
+        <span class="status-pill" aria-label="Basket count">0</span>
       </header>
+
+      <nav class="site-menu" id="siteMenu" aria-hidden="true" data-site-menu>
+        <button class="site-menu__backdrop" type="button" aria-label="Close menu" data-menu-close></button>
+        <div class="site-menu__panel">
+          <div class="site-menu__top">
+            <button class="site-menu__close" type="button" aria-label="Close menu" data-menu-close>×</button>
+            <a class="site-menu__brand" href="index.html">FRAM</a>
+          </div>
+
+          <div class="site-menu__links">
+            <a href="products.html">PRODUCTS</a>
+            <a href="#newsletter">CHAT</a>
+          </div>
+
+          <a class="site-menu__checkout" href="#">CHECKOUT</a>
+        </div>
+      </nav>
 
       <nav class="breadcrumbs">
         <div class="breadcrumbs-inner">
@@ -132,15 +156,13 @@
               <h2>SEE OUR<br/>PARTNERING FARMS</h2>
             </div>
             <div class="farms-map span-6">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2247.4647571175267!2d5.867138076719244!3d60.39247927457494!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x463cfe6d3fa7e0c5%3A0xbef8c6f9c8f8c8f8!2sRoaststad%20Gaard!5e0!3m2!1sno!2sno!4v1234567890"
-                width="100%"
-                height="100%"
-                style="border: 0; border-radius: 14px; min-height: 320px;"
-                allowfullscreen=""
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-              ></iframe>
+              <div class="map-shell">
+                <div class="map-status" id="mapStatus" role="status" aria-live="polite"></div>
+                <div class="map-loading-overlay" id="mapLoadingOverlay" aria-hidden="true">
+                  <div class="map-spinner"></div>
+                </div>
+                <div id="farmMap" class="farm-map" aria-label="Interactive map of partnering farms"></div>
+              </div>
             </div>
           </div>
         </section>
@@ -164,5 +186,10 @@
         </section>
       </main>
     </div>
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      crossorigin=""
+    ></script>
+    <script src="farm-map.js" defer></script>
   </body>
 </html>
