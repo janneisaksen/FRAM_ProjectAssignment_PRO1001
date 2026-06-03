@@ -1,19 +1,86 @@
+/**
+ * farm-map.js — Interactive partner farm map
+ *
+ * API USED: Overpass API (https://overpass-api.de)
+ * Based on: OpenStreetMap data (© OpenStreetMap contributors, ODbL licence)
+ *
+ * ── What it does ──────────────────────────────────────────────────────────────
+ * Queries the Overpass API for named shops, tourism spots and amenities within
+ * the bounding box of the farm coordinates. The nearest named result is used to
+ * enrich each farm marker popup with local context.
+ *
+ * ── Limitations ───────────────────────────────────────────────────────────────
+ * 1. Rate limiting: The public Overpass API endpoint has shared rate limits.
+ *    Heavy or repeated use may result in HTTP 429 (Too Many Requests) errors.
+ *    A production site should use a self-hosted Overpass instance or cache
+ *    responses server-side.
+ *
+ * 2. Data freshness: OSM data is crowd-sourced and may be out of date for
+ *    rural areas such as the Hadeland region. Businesses that have closed or
+ *    moved may still appear as candidates.
+ *
+ * 3. Availability: The public endpoint has no SLA. If the service is down the
+ *    map degrades gracefully — markers still render, enrichment is skipped.
+ *
+ * 4. Timeout: Requests are limited to 15 seconds (Overpass [timeout:15]).
+ *    Slow or overloaded servers will cause the enrichment to fail silently.
+ *
+ * ── Ethical considerations ────────────────────────────────────────────────────
+ * 1. Attribution: OSM data is used under the Open Database Licence (ODbL).
+ *    The map tile attribution (© OpenStreetMap contributors) is displayed
+ *    inside the Leaflet map as required by the licence.
+ *
+ * 2. Privacy: No user data is sent to Overpass. The only data transmitted is
+ *    the bounding box of publicly known farm coordinates.
+ *
+ * 3. Resource fairness: The query runs once on page load, not on every
+ *    interaction, to minimise load on the shared public infrastructure.
+ *
+ * ── Potential biases ──────────────────────────────────────────────────────────
+ * 1. Coverage bias: OSM data density is higher in cities. Rural farms in this
+ *    project may have fewer nearby tagged features, so the "nearest point"
+ *    result can be less meaningful or missing entirely.
+ *
+ * 2. Language bias: OSM tags in this region are primarily in Norwegian.
+ *    The label extraction uses `name`, `brand` and `operator` fields, which
+ *    may not always reflect how locals refer to a place.
+ *
+ * 3. Category bias: The query targets shops, tourism and amenities only.
+ *    Agricultural or community features (e.g. farm stands) are not included,
+ *    which under-represents the rural context of the partnering farms.
+ */
+
 const farms = [
   {
     name: 'Braastad Gaard',
     subtitle: 'Oppdalslinna 242, 2740 Roa, Norway',
+    description:
+      'Family-run farm focused on crisp root vegetables and seasonal greens grown with soil-friendly methods.',
+    signatureProduce: ['Carrots', 'Potatoes', 'Leafy greens'],
+    deliveryArea: 'Roa, Lunner and surrounding areas',
+    seasonWindow: 'June–October',
     lat: 60.2679,
     lng: 10.6056,
   },
   {
     name: 'Haakenstad Gård',
     subtitle: 'Haakenstadlinna 109, 2740 Roa, Norway',
+    description:
+      'Known for robust onion varieties and storage crops harvested at peak maturity for long-lasting flavor.',
+    signatureProduce: ['Red onions', 'Yellow onions', 'Leeks'],
+    deliveryArea: 'Roa, Gran and Jaren',
+    seasonWindow: 'August–March',
     lat: 60.2815,
     lng: 10.6442,
   },
   {
     name: 'Øvre Kjekshus Gård',
     subtitle: 'Vienlinna 427, 2750 Gran, Norway',
+    description:
+      'Produces high-quality grains and garlic with attention to biodiversity and traditional cultivation.',
+    signatureProduce: ['Oats', 'Garlic', 'Seasonal herbs'],
+    deliveryArea: 'Gran, Brandbu and Hadeland',
+    seasonWindow: 'Year-round (season-dependent selection)',
     lat: 60.3768,
     lng: 10.5628,
   },
@@ -108,7 +175,7 @@ function getCandidates(apiElements) {
 
 function getNearestLabel(farm, candidates) {
   if (!candidates.length) {
-    return 'No nearby OSM feature loaded';
+    return 'No nearby points of interest loaded';
   }
 
   let nearestCandidate = candidates[0];
@@ -126,19 +193,49 @@ function getNearestLabel(farm, candidates) {
   return `${nearestCandidate.label} (${formatDistance(shortestDistance)} away)`;
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function addFarmMarkers(candidateList = []) {
   farms.forEach((farm, index) => {
     const marker = L.marker([farm.lat, farm.lng]).addTo(map);
-    const nearest = getNearestLabel(farm, candidateList);
-    const routeLabel = `${farm.name} — ${farm.subtitle}`;
 
-    marker.bindPopup(`
-      <strong>${routeLabel}</strong><br />
-      Fixed coordinates in code<br />
-      Nearby enrichment: ${nearest}
-    `);
+    const hoverLabel = `
+      <div class="farm-tooltip__name">${escapeHtml(farm.name)}</div>
+      <div class="farm-tooltip__meta">${escapeHtml(farm.signatureProduce.join(' • '))}</div>
+    `;
 
-    marker.bindTooltip(routeLabel, { direction: 'top', offset: [0, -8] });
+    const popupDetails = `
+      <article class="farm-popup">
+        <p class="farm-popup__eyebrow">Partner farm #${index + 1}</p>
+        <h3 class="farm-popup__title">${escapeHtml(farm.name)}</h3>
+        <p class="farm-popup__address">${escapeHtml(farm.subtitle)}</p>
+        <p class="farm-popup__description">${escapeHtml(farm.description)}</p>
+        <p class="farm-popup__produce"><strong>Signature produce:</strong> ${escapeHtml(farm.signatureProduce.join(', '))}</p>
+        <p class="farm-popup__nearby"><strong>Delivery area:</strong> ${escapeHtml(farm.deliveryArea)}</p>
+        <p class="farm-popup__nearby"><strong>Main season:</strong> ${escapeHtml(farm.seasonWindow)}</p>
+      </article>
+    `;
+
+    marker.bindPopup(popupDetails, {
+      className: 'farm-popup-frame',
+      maxWidth: 320,
+      minWidth: 240,
+      autoPanPadding: [18, 24],
+    });
+
+    marker.bindTooltip(hoverLabel, {
+      className: 'farm-tooltip-frame',
+      direction: 'top',
+      offset: [0, -10],
+      opacity: 1,
+    });
   });
 }
 

@@ -1,3 +1,55 @@
+/**
+ * chatbot.js — FRAM customer support chatbot
+ *
+ * API USED: Optional external chat endpoint (configured via data-chat-endpoint)
+ * Fallback: Rule-based keyword matching (no external API)
+ *
+ * ── What it does ──────────────────────────────────────────────────────────────
+ * Sends the user's message as JSON to a configurable endpoint and displays the
+ * reply. If no endpoint is configured, or if the request fails, a local
+ * keyword-based fallback generates a canned response.
+ *
+ * ── Limitations ───────────────────────────────────────────────────────────────
+ * 1. No endpoint configured by default: The current build does not point to a
+ *    live API, so all responses come from the local fallback. This means the
+ *    chatbot cannot answer questions outside its predefined keyword categories.
+ *
+ * 2. Fallback depth: The keyword rules cover farms, produce, orders, delivery
+ *    and price. Any question outside these topics returns a generic reply and
+ *    may leave the user without useful information.
+ *
+ * 3. Timeout: Requests are aborted after 10 seconds. Slow networks may cause
+ *    the bot to silently fall back to the error state.
+ *
+ * 4. No conversation memory: Each message is sent in isolation. The API
+ *    receives no prior context, so multi-turn conversations are not supported.
+ *
+ * ── Ethical considerations ────────────────────────────────────────────────────
+ * 1. Transparency: The chatbot identifies itself as "FRAM", not as a human.
+ *    Users should always be aware they are interacting with an automated system.
+ *
+ * 2. Data minimisation: Only the raw message text is sent to the endpoint.
+ *    No user identifiers, session tokens or browser fingerprints are included
+ *    in the request body.
+ *
+ * 3. User expectations: Automated responses may give incorrect or outdated
+ *    information about stock, prices and delivery. Important decisions should
+ *    be confirmed through official channels.
+ *
+ * ── Potential biases ──────────────────────────────────────────────────────────
+ * 1. Language bias: The fallback regex patterns recognise a mix of English and
+ *    Norwegian keywords (e.g. "levering", "dyrt"). Users writing in other
+ *    languages will consistently receive the generic fallback reply.
+ *
+ * 2. Topic bias: The keyword categories reflect the developer's assumptions
+ *    about what users ask. Questions about sustainability, allergens or
+ *    accessibility are not handled and will fall through to the generic reply.
+ *
+ * 3. Reply selection bias: Multiple candidate replies per category are chosen
+ *    at random (Math.random). This means the same question can get different
+ *    answers across sessions, which may feel inconsistent to returning users.
+ */
+
 (() => {
   const chatbot = document.querySelector("[data-chatbot]");
 

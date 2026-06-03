@@ -1008,6 +1008,38 @@ body.menu-open .site-menu__panel {
   color: #707070;
 }
 
+.newsletter-form input.field-invalid {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.newsletter-form input.field-valid {
+  outline: 2px solid var(--success);
+  outline-offset: 1px;
+}
+
+.form-field-error {
+  display: block;
+  margin-top: -0.35rem;
+  font-size: 0.8rem;
+  color: #fff;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  min-height: 1em;
+}
+
+.form-success-message {
+  margin-top: 1.6rem;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
 /* ============================================================
    TYPOGRAPHY HELPERS
    ============================================================ */
@@ -1788,25 +1820,86 @@ body.menu-open .site-menu__panel {
 }
 
 .leaflet-popup-content {
-  margin: 0.75rem 0.85rem;
+  margin: 0;
   font-family: "Arimo", sans-serif;
   font-size: 0.9rem;
   line-height: 1.4;
 }
 
-.leaflet-popup-content strong {
-  display: inline-block;
-  margin-bottom: 0.25rem;
+.farm-popup-frame .leaflet-popup-content-wrapper {
+  border-radius: 16px;
+  background: linear-gradient(160deg, #fffef8 0%, #f8f3e9 100%);
+  border: 1px solid rgba(11, 10, 8, 0.1);
 }
 
-.leaflet-tooltip {
+.farm-popup-frame .leaflet-popup-tip {
+  background: #f8f3e9;
+}
+
+.farm-popup {
+  padding: 0.9rem 1rem;
+  color: var(--text);
+}
+
+.farm-popup__eyebrow {
+  margin: 0 0 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+
+.farm-popup__title {
+  margin: 0;
+  font-family: "Frank Ruhl Libre", serif;
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+.farm-popup__address,
+.farm-popup__description,
+.farm-popup__produce,
+.farm-popup__nearby {
+  margin: 0.45rem 0 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.farm-popup__description {
+  color: var(--text);
+}
+
+.farm-popup__produce strong,
+.farm-popup__nearby strong {
+  color: var(--text);
+}
+
+.farm-tooltip-frame.leaflet-tooltip {
   border: 0;
-  border-radius: 999px;
-  background: rgba(11, 10, 8, 0.9);
-  color: #fff;
-  box-shadow: 0 10px 24px rgba(11, 10, 8, 0.16);
+  border-radius: 12px;
+  background: rgba(255, 252, 245, 0.97);
+  color: var(--text);
+  box-shadow: 0 12px 28px rgba(11, 10, 8, 0.14);
   font-family: "Arimo", sans-serif;
-  font-size: 0.78rem;
+  padding: 0.5rem 0.65rem;
+}
+
+.farm-tooltip-frame::before {
+  border-top-color: rgba(255, 252, 245, 0.97) !important;
+}
+
+.farm-tooltip__name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.farm-tooltip__meta {
+  margin-top: 0.15rem;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  color: var(--muted);
 }
 
 
