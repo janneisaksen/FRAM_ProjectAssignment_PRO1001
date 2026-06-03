@@ -216,6 +216,8 @@
   const setSending = (sending) => {
     input.disabled = sending;
     sendButton.disabled = sending;
+    form.setAttribute("aria-busy", String(sending));
+    sendButton.setAttribute("aria-disabled", String(sending));
   };
 
   form.addEventListener("submit", async (event) => {

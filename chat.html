@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Chat with FRAM for help with produce, partner farms, delivery, and ordering questions."
+    />
     <title>Chat — FRAM</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,6 +19,7 @@
     <script src="chatbot.js" defer></script>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <div class="page-shell chat-page">
       <header class="topbar section-grid">
         <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="siteMenu" data-menu-open>
@@ -26,9 +31,9 @@
         <span class="status-pill" aria-label="Basket count">0</span>
       </header>
 
-      <nav class="site-menu" id="siteMenu" aria-hidden="true" data-site-menu>
+      <nav class="site-menu" id="siteMenu" aria-hidden="true" aria-label="Main menu" data-site-menu>
         <button class="site-menu__backdrop" type="button" aria-label="Close menu" data-menu-close></button>
-        <div class="site-menu__panel">
+        <div class="site-menu__panel" role="dialog" aria-modal="true" aria-label="Site menu" data-menu-panel>
           <div class="site-menu__top">
             <button class="site-menu__close" type="button" aria-label="Close menu" data-menu-close>×</button>
             <a class="site-menu__brand" href="index.html">FRAM</a>
@@ -36,14 +41,14 @@
 
           <div class="site-menu__links">
             <a href="products.html">PRODUCTS</a>
-            <a href="chat.html">CHAT</a>
+            <a href="chat.html" aria-current="page">CHAT</a>
           </div>
 
           <a class="site-menu__checkout" href="#">CHECKOUT</a>
         </div>
       </nav>
 
-      <main>
+      <main id="main-content" tabindex="-1">
         <section class="chat-stage" aria-label="Chat with FRAM">
           <div class="chatbot-shell" data-chatbot>
             <div class="chatbot-log" role="log" aria-live="polite" aria-label="Conversation" data-chat-log>

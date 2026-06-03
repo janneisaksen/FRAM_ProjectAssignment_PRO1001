@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Browse FRAM produce sourced from local farms, view partnering farm locations, and subscribe for seasonal updates."
+    />
     <title>Produce — FRAM</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,6 +25,7 @@
     <script src="newsletter.js" defer></script>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <div class="page-shell">
       <header class="topbar section-grid">
         <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="siteMenu" data-menu-open>
@@ -32,16 +37,16 @@
         <span class="status-pill" aria-label="Basket count">0</span>
       </header>
 
-      <nav class="site-menu" id="siteMenu" aria-hidden="true" data-site-menu>
+      <nav class="site-menu" id="siteMenu" aria-hidden="true" aria-label="Main menu" data-site-menu>
         <button class="site-menu__backdrop" type="button" aria-label="Close menu" data-menu-close></button>
-        <div class="site-menu__panel">
+        <div class="site-menu__panel" role="dialog" aria-modal="true" aria-label="Site menu" data-menu-panel>
           <div class="site-menu__top">
             <button class="site-menu__close" type="button" aria-label="Close menu" data-menu-close>×</button>
             <a class="site-menu__brand" href="index.html">FRAM</a>
           </div>
 
           <div class="site-menu__links">
-            <a href="products.html">PRODUCTS</a>
+            <a href="products.html" aria-current="page">PRODUCTS</a>
             <a href="chat.html">CHAT</a>
           </div>
 
@@ -49,15 +54,15 @@
         </div>
       </nav>
 
-      <nav class="breadcrumbs">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
         <div class="breadcrumbs-inner">
           <a href="index.html">Home</a>
           <span class="breadcrumb-separator">/</span>
-          <span class="breadcrumb-current">Produce</span>
+          <span class="breadcrumb-current" aria-current="page">Produce</span>
         </div>
       </nav>
 
-      <main>
+      <main id="main-content" tabindex="-1">
         <section class="produce-hero">
           <div class="section-grid">
             <div class="produce-header span-12">
@@ -78,6 +83,8 @@
               <img
                 src="https://images.unsplash.com/photo-1614373532018-92a75430a0da?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Oats"
+                width="345"
+                height="250"
                 loading="lazy"
                 decoding="async"
               />
@@ -88,13 +95,15 @@
                 </div>
                 <strong>16 kr / kg</strong>
               </div>
-              <button class="chip-button"><span class="chip-button-label">Add to basket</span><svg class="chip-button-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 19.5V4.5"></path><path d="M6 10.5L12 4.5L18 10.5"></path></svg></button>
+              <button class="chip-button" type="button" aria-label="Add Oats to basket"><span class="chip-button-label">Add to basket</span><svg class="chip-button-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 19.5V4.5"></path><path d="M6 10.5L12 4.5L18 10.5"></path></svg></button>
             </article>
 
             <article class="product-card span-6">
               <img
                 src="https://images.unsplash.com/photo-1508747703725-719777637510?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Red onions"
+                width="345"
+                height="250"
                 loading="lazy"
                 decoding="async"
               />
@@ -105,13 +114,15 @@
                 </div>
                 <strong>45 kr / kg</strong>
               </div>
-              <button class="chip-button"><span class="chip-button-label">Add to basket</span><svg class="chip-button-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 19.5V4.5"></path><path d="M6 10.5L12 4.5L18 10.5"></path></svg></button>
+              <button class="chip-button" type="button" aria-label="Add Red onions to basket"><span class="chip-button-label">Add to basket</span><svg class="chip-button-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 19.5V4.5"></path><path d="M6 10.5L12 4.5L18 10.5"></path></svg></button>
             </article>
 
             <article class="product-card span-6">
               <img
                 src="https://images.unsplash.com/reserve/E6Ai8EoSQp2unXHEd1GA_GarlicHarvest.jpg?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Garlic bulbs"
+                width="345"
+                height="250"
                 loading="lazy"
                 decoding="async"
               />
@@ -122,13 +133,15 @@
                 </div>
                 <strong>38 kr</strong>
               </div>
-              <button class="chip-button"><span class="chip-button-label">Add to basket</span><svg class="chip-button-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 19.5V4.5"></path><path d="M6 10.5L12 4.5L18 10.5"></path></svg></button>
+              <button class="chip-button" type="button" aria-label="Add Garlic to basket"><span class="chip-button-label">Add to basket</span><svg class="chip-button-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 19.5V4.5"></path><path d="M6 10.5L12 4.5L18 10.5"></path></svg></button>
             </article>
 
             <article class="product-card span-6">
               <img
                 src="https://images.unsplash.com/photo-1590165482129-1b8b27698780?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Potatoes"
+                width="345"
+                height="250"
                 loading="lazy"
                 decoding="async"
               />
@@ -139,13 +152,15 @@
                 </div>
                 <strong>32 kr / kg</strong>
               </div>
-              <button class="chip-button"><span class="chip-button-label">Add to basket</span><svg class="chip-button-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 19.5V4.5"></path><path d="M6 10.5L12 4.5L18 10.5"></path></svg></button>
+              <button class="chip-button" type="button" aria-label="Add Potatoes to basket"><span class="chip-button-label">Add to basket</span><svg class="chip-button-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 19.5V4.5"></path><path d="M6 10.5L12 4.5L18 10.5"></path></svg></button>
             </article>
 
             <article class="product-card span-6">
               <img
                 src="https://images.unsplash.com/photo-1508747774537-d8ae09fa7dba?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Carrots"
+                width="345"
+                height="250"
                 loading="lazy"
                 decoding="async"
               />
@@ -156,7 +171,7 @@
                 </div>
                 <strong>48 kr / kg</strong>
               </div>
-              <button class="chip-button"><span class="chip-button-label">Add to basket</span><svg class="chip-button-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 19.5V4.5"></path><path d="M6 10.5L12 4.5L18 10.5"></path></svg></button>
+              <button class="chip-button" type="button" aria-label="Add Carrots to basket"><span class="chip-button-label">Add to basket</span><svg class="chip-button-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 19.5V4.5"></path><path d="M6 10.5L12 4.5L18 10.5"></path></svg></button>
             </article>
           </div>
         </section>
@@ -188,8 +203,8 @@
               <p>Sign up for our newsletter to be the first to know about new produce or other exciting news!</p>
 
               <form class="newsletter-form">
-                <input type="text" name="firstName" placeholder="First name" aria-label="First name" />
-                <input type="email" name="email" placeholder="E-mail adress" aria-label="E-mail address" />
+                <input type="text" name="firstName" placeholder="First name" aria-label="First name" autocomplete="given-name" required />
+                <input type="email" name="email" placeholder="E-mail address" aria-label="E-mail address" autocomplete="email" required />
                 <button class="button button-light" type="submit">Send</button>
               </form>
             </div>

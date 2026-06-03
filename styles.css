@@ -77,6 +77,25 @@ button {
   background: none;
 }
 
+.skip-link {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 5000;
+  padding: 0.55rem 0.8rem;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  border: 2px solid var(--text);
+  transform: translateY(-150%);
+  transition: transform 140ms ease;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
 /* ============================================================
    PAGE SHELL
    ============================================================ */
@@ -2336,6 +2355,7 @@ body.menu-open .site-menu__panel {
     justify-content: center;
     line-height: 1;
     cursor: pointer;
+    transition: background-color 180ms ease, transform 180ms ease;
   }
 
   .chatbot-send .chat-send-arrow {
@@ -2346,6 +2366,11 @@ body.menu-open .site-menu__panel {
 
   .chatbot-send:hover {
     background: var(--accent-dark);
+    transform: translateY(-1px);
+  }
+
+  .chatbot-send:active {
+    transform: translateY(0);
   }
 
   .chatbot-send:disabled,
