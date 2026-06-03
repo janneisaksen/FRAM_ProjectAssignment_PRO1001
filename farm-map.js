@@ -1,53 +1,10 @@
 /**
  * farm-map.js — Interactive partner farm map
  *
- * API USED: Overpass API (https://overpass-api.de)
- * Based on: OpenStreetMap data (© OpenStreetMap contributors, ODbL licence)
- *
- * ── What it does ──────────────────────────────────────────────────────────────
- * Queries the Overpass API for named shops, tourism spots and amenities within
- * the bounding box of the farm coordinates. The nearest named result is used to
- * enrich each farm marker popup with local context.
- *
- * ── Limitations ───────────────────────────────────────────────────────────────
- * 1. Rate limiting: The public Overpass API endpoint has shared rate limits.
- *    Heavy or repeated use may result in HTTP 429 (Too Many Requests) errors.
- *    A production site should use a self-hosted Overpass instance or cache
- *    responses server-side.
- *
- * 2. Data freshness: OSM data is crowd-sourced and may be out of date for
- *    rural areas such as the Hadeland region. Businesses that have closed or
- *    moved may still appear as candidates.
- *
- * 3. Availability: The public endpoint has no SLA. If the service is down the
- *    map degrades gracefully — markers still render, enrichment is skipped.
- *
- * 4. Timeout: Requests are limited to 15 seconds (Overpass [timeout:15]).
- *    Slow or overloaded servers will cause the enrichment to fail silently.
- *
- * ── Ethical considerations ────────────────────────────────────────────────────
- * 1. Attribution: OSM data is used under the Open Database Licence (ODbL).
- *    The map tile attribution (© OpenStreetMap contributors) is displayed
- *    inside the Leaflet map as required by the licence.
- *
- * 2. Privacy: No user data is sent to Overpass. The only data transmitted is
- *    the bounding box of publicly known farm coordinates.
- *
- * 3. Resource fairness: The query runs once on page load, not on every
- *    interaction, to minimise load on the shared public infrastructure.
- *
- * ── Potential biases ──────────────────────────────────────────────────────────
- * 1. Coverage bias: OSM data density is higher in cities. Rural farms in this
- *    project may have fewer nearby tagged features, so the "nearest point"
- *    result can be less meaningful or missing entirely.
- *
- * 2. Language bias: OSM tags in this region are primarily in Norwegian.
- *    The label extraction uses `name`, `brand` and `operator` fields, which
- *    may not always reflect how locals refer to a place.
- *
- * 3. Category bias: The query targets shops, tourism and amenities only.
- *    Agricultural or community features (e.g. farm stands) are not included,
- *    which under-represents the rural context of the partnering farms.
+ * Performance notes:
+ * - The map is initialized only when it is close to the viewport.
+ * - Markers render immediately from local data.
+ * - Overpass enrichment is optional, runs in the background, and is cached.
  */
 
 const farms = [
@@ -87,24 +44,18 @@ const farms = [
 ];
 
 const mapStatus = document.getElementById('mapStatus');
-const mapLoadingOverlay = document.getElementById('mapLoadingOverlay');
 const mapContainer = document.getElementById('farmMap');
-const mapShell = mapContainer.closest('.map-shell');
-
+const mapShell = mapContainer?.closest('.map-shell');
 const farmBounds = L.latLngBounds(farms.map((farm) => [farm.lat, farm.lng]));
-const map = L.map(mapContainer, {
-  scrollWheelZoom: false,
-  preferCanvas: true,
-});
 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19,
-  attribution: '&copy; OpenStreetMap contributors',
-}).addTo(map);
+const OVERPASS_CACHE_KEY = 'fram-map-overpass-cache-v1';
+const OVERPASS_CACHE_TTL_MS = 1000 * 60 * 60 * 12;
 
-map.fitBounds(farmBounds.pad(0.25));
-mapContainer.setAttribute('aria-busy', 'true');
-mapShell.dataset.loading = 'true';
+if (!mapContainer || !mapShell || !mapStatus) {
+  // Not on a page that contains the map.
+} else {
+  startWhenVisible();
+}
 
 function setStatus(message, state = 'hidden') {
   mapStatus.textContent = message;
@@ -116,28 +67,44 @@ function setLoading(isLoading) {
   mapShell.dataset.loading = String(isLoading);
 }
 
-function formatDistance(meters) {
-  if (meters < 1000) {
-    return `${Math.round(meters)} m`;
-  }
+function getCachedCandidates() {
+  try {
+    const raw = sessionStorage.getItem(OVERPASS_CACHE_KEY);
 
-  return `${(meters / 1000).toFixed(1)} km`;
+    if (!raw) {
+      return null;
+    }
+
+    const parsed = JSON.parse(raw);
+    const isValid =
+      parsed &&
+      typeof parsed.savedAt === 'number' &&
+      Array.isArray(parsed.candidates) &&
+      Date.now() - parsed.savedAt < OVERPASS_CACHE_TTL_MS;
+
+    if (!isValid) {
+      sessionStorage.removeItem(OVERPASS_CACHE_KEY);
+      return null;
+    }
+
+    return parsed.candidates;
+  } catch {
+    return null;
+  }
 }
 
-function distanceMeters(from, to) {
-  const earthRadius = 6371000;
-  const toRadians = (value) => (value * Math.PI) / 180;
-  const deltaLat = toRadians(to.lat - from.lat);
-  const deltaLng = toRadians(to.lng - from.lng);
-  const lat1 = toRadians(from.lat);
-  const lat2 = toRadians(to.lat);
-
-  const a =
-    Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-    Math.sin(deltaLng / 2) * Math.sin(deltaLng / 2) * Math.cos(lat1) * Math.cos(lat2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-  return earthRadius * c;
+function setCachedCandidates(candidates) {
+  try {
+    sessionStorage.setItem(
+      OVERPASS_CACHE_KEY,
+      JSON.stringify({
+        savedAt: Date.now(),
+        candidates,
+      })
+    );
+  } catch {
+    // Ignore storage quota/privacy mode errors.
+  }
 }
 
 function buildNearbyQuery(bounds) {
@@ -173,26 +140,6 @@ function getCandidates(apiElements) {
     .filter(Boolean);
 }
 
-function getNearestLabel(farm, candidates) {
-  if (!candidates.length) {
-    return 'No nearby points of interest loaded';
-  }
-
-  let nearestCandidate = candidates[0];
-  let shortestDistance = distanceMeters(farm, nearestCandidate);
-
-  for (const candidate of candidates.slice(1)) {
-    const currentDistance = distanceMeters(farm, candidate);
-
-    if (currentDistance < shortestDistance) {
-      nearestCandidate = candidate;
-      shortestDistance = currentDistance;
-    }
-  }
-
-  return `${nearestCandidate.label} (${formatDistance(shortestDistance)} away)`;
-}
-
 function escapeHtml(value) {
   return String(value)
     .replace(/&/g, '&amp;')
@@ -202,7 +149,7 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
-function addFarmMarkers(candidateList = []) {
+function addFarmMarkers(map) {
   farms.forEach((farm, index) => {
     const marker = L.marker([farm.lat, farm.lng]).addTo(map);
 
@@ -239,19 +186,25 @@ function addFarmMarkers(candidateList = []) {
   });
 }
 
-async function loadMapExtras() {
-  try {
-    const loadingStartedAt = Date.now();
-    setStatus('Loading farm locations...', 'loading');
-    setLoading(true);
+async function fetchOverpassCandidates() {
+  const cached = getCachedCandidates();
 
-    const overpassQuery = buildNearbyQuery(farmBounds);
+  if (cached) {
+    return cached;
+  }
+
+  const overpassQuery = buildNearbyQuery(farmBounds);
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 6000);
+
+  try {
     const response = await fetch('https://overpass-api.de/api/interpreter', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       },
       body: `data=${encodeURIComponent(overpassQuery)}`,
+      signal: controller.signal,
     });
 
     if (!response.ok) {
@@ -261,22 +214,83 @@ async function loadMapExtras() {
     const data = await response.json();
     const candidates = getCandidates(data.elements || []);
 
-    addFarmMarkers(candidates);
-    const elapsed = Date.now() - loadingStartedAt;
-    const minimumDisplayTime = 900;
-
-    if (elapsed < minimumDisplayTime) {
-      await new Promise((resolve) => setTimeout(resolve, minimumDisplayTime - elapsed));
-    }
-
-    setLoading(false);
-    setStatus('', 'hidden');
-  } catch (error) {
-    console.error('Map enrichment failed:', error);
-    addFarmMarkers();
-    setLoading(false);
-    setStatus('The map could not load extra location details right now.', 'error');
+    setCachedCandidates(candidates);
+    return candidates;
+  } finally {
+    window.clearTimeout(timeout);
   }
 }
 
-loadMapExtras();
+async function loadMapExtrasInBackground() {
+  try {
+    setStatus('Loading extra map context...', 'loading');
+    await fetchOverpassCandidates();
+    setStatus('', 'hidden');
+  } catch (error) {
+    console.warn('Map enrichment skipped:', error);
+    setStatus('Extra map context is unavailable right now.', 'error');
+  }
+}
+
+function initMap() {
+  setLoading(true);
+  setStatus('', 'hidden');
+
+  const map = L.map(mapContainer, {
+    scrollWheelZoom: false,
+    preferCanvas: true,
+  });
+
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors',
+  }).addTo(map);
+
+  map.fitBounds(farmBounds.pad(0.25));
+  addFarmMarkers(map);
+
+  setLoading(false);
+
+  // Avoid size glitches after hidden/transitioned containers.
+  window.setTimeout(() => map.invalidateSize(), 60);
+
+  // Optional enrichment should never block map interactivity.
+  void loadMapExtrasInBackground();
+}
+
+function startWhenVisible() {
+  let hasStarted = false;
+
+  const start = () => {
+    if (hasStarted) {
+      return;
+    }
+
+    hasStarted = true;
+    initMap();
+  };
+
+  if (!('IntersectionObserver' in window)) {
+    start();
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const isVisible = entries.some((entry) => entry.isIntersecting);
+
+      if (!isVisible) {
+        return;
+      }
+
+      observer.disconnect();
+      start();
+    },
+    {
+      rootMargin: '180px 0px',
+      threshold: 0.01,
+    }
+  );
+
+  observer.observe(mapShell);
+}

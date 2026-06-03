@@ -1836,6 +1836,24 @@ body.menu-open .site-menu__panel {
   background: #f8f3e9;
 }
 
+.farm-popup-frame a.leaflet-popup-close-button {
+  top: 8px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.farm-popup-frame a.leaflet-popup-close-button:hover {
+  background: rgba(11, 10, 8, 0.08);
+}
+
 .farm-popup {
   padding: 0.9rem 1rem;
   color: var(--text);

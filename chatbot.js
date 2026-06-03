@@ -68,6 +68,8 @@
   }
 
   const endpoint = chatbot.dataset.chatEndpoint?.trim();
+  const replyCache = new Map();
+  const pendingRequests = new Map();
 
   const setFeedback = (message = "") => {
     feedback.textContent = message;
@@ -158,38 +160,57 @@
   };
 
   const getReply = async (message) => {
+    const normalizedMessage = message.trim().toLowerCase();
+
+    if (replyCache.has(normalizedMessage)) {
+      return replyCache.get(normalizedMessage);
+    }
+
+    if (pendingRequests.has(normalizedMessage)) {
+      return pendingRequests.get(normalizedMessage);
+    }
+
     if (!endpoint) {
-      return fallbackReply(message);
+      const localReply = fallbackReply(message);
+      replyCache.set(normalizedMessage, localReply);
+      return localReply;
     }
 
-    const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 10000);
+    const requestPromise = (async () => {
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 10000);
 
-    try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ message }),
-        signal: controller.signal
-      });
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ message }),
+          signal: controller.signal
+        });
 
-      if (!response.ok) {
-        throw new Error("Request failed");
+        if (!response.ok) {
+          throw new Error("Request failed");
+        }
+
+        const data = await response.json();
+        const reply = typeof data?.reply === "string" ? data.reply.trim() : "";
+
+        if (!reply) {
+          throw new Error("Invalid reply");
+        }
+
+        replyCache.set(normalizedMessage, reply);
+        return reply;
+      } finally {
+        window.clearTimeout(timeout);
+        pendingRequests.delete(normalizedMessage);
       }
+    })();
 
-      const data = await response.json();
-      const reply = typeof data?.reply === "string" ? data.reply.trim() : "";
-
-      if (!reply) {
-        throw new Error("Invalid reply");
-      }
-
-      return reply;
-    } finally {
-      window.clearTimeout(timeout);
-    }
+    pendingRequests.set(normalizedMessage, requestPromise);
+    return requestPromise;
   };
 
   const setSending = (sending) => {
