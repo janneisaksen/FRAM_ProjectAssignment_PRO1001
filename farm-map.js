@@ -1,10 +1,8 @@
 /**
- * farm-map.js — Interactive partner farm map
- *
- * Performance notes:
- * - The map is initialized only when it is close to the viewport.
- * - Markers render immediately from local data.
- * - Overpass enrichment is optional, runs in the background, and is cached.
+ * Loads and displays the partner farm map using Leaflet.
+ * The map only loads when it scrolls into view to keep the page fast.
+ * Farm data is shown from local data. The Overpass API adds extra
+ * map context in the background and results are cached for 12 hours.
  */
 
 const farms = [

@@ -1,22 +1,19 @@
 /* ============================================================
    DESIGN TOKENS
+   Custom properties used across all pages.
    ============================================================ */
-/*
-  Key design decisions:
-  - Mobile-first tokens and breakpoints drive all typography/layout scales.
-  - Reusable custom properties keep visual consistency across pages.
-  - Component sections are structured for accessibility and performance tuning.
-*/
 :root {
+  /* Colors
+     --primary is slightly darker than the original Figma red
+     to meet WCAG AA contrast requirements. */
   --background: #f7f2de;
   --surface: #ffffff;
-  --surface-soft: #f7f2ed;
   --surface-blue: #e1eaf0;
   --text: #0b0a08;
   --muted: #4d4944;
-  --accent: #c8372a;
-  --accent-dark: #ae2e21;
-  --success: #068f51;
+  --primary: #c8372a;       /* brand red — buttons, accents */
+  --primary-dark: #ae2e21;  /* darker red — hover states */
+  --action: #008F51;        /* green — basket pill, valid fields */
 
   /* Typography scale */
   --type-logo-mobile: 4.688rem;
@@ -34,9 +31,6 @@
   /* Layout */
   --container: calc(100vw - 48px);
   --gutter: 16px;
-  --radius: 28px;
-  --line: rgba(30, 26, 24, 0.14);
-  --shadow: 0 22px 60px rgba(21, 18, 16, 0.12);
 }
 
 /* ============================================================
@@ -115,7 +109,9 @@ button {
 }
 
 /* ============================================================
-   GRID SYSTEM  — mobile first
+   GRID SYSTEM — mobile first
+   12 columns make it easy to create halves, thirds, and quarters.
+   On mobile all columns collapse to full width.
    ============================================================ */
 .section-grid {
   width: var(--container);
@@ -190,77 +186,7 @@ button {
   line-height: 1;
 }
 
-.back-link-bar {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  padding: 16px;
-  background: var(--surface);
-  border-bottom: 1px solid rgba(11, 10, 8, 0.14);
-  display: none;
-  justify-content: center;
-}
 
-.breadcrumbs {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  background: var(--background);
-  padding: 12px 24px;
-}
-
-.breadcrumbs-inner {
-  width: 100%;
-  font-family: "Arimo", sans-serif;
-  font-size: 0.875rem;
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.breadcrumbs-inner a {
-  color: var(--text);
-  text-decoration: none;
-  transition: color 180ms ease;
-}
-
-.breadcrumbs-inner a:hover {
-  color: var(--accent);
-}
-
-.breadcrumb-separator {
-  color: rgba(11, 10, 8, 0.35);
-}
-
-.breadcrumb-current {
-  color: var(--muted);
-}
-
-.back-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: none;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background-color 180ms ease;
-  border: none;
-}
-
-.back-button:hover {
-  background: rgba(11, 10, 8, 0.08);
-}
-
-.back-button svg {
-  width: 20px;
-  height: 20px;
-  stroke: var(--text);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
 
 .status-pill {
   grid-column: 12;
@@ -269,7 +195,7 @@ button {
   height: 36px;
   min-width: 36px;
   border-radius: 50%;
-  background: var(--success);
+  background: var(--action);
   color: var(--text);
   text-decoration: none;
   font-size: 0.9rem;
@@ -528,6 +454,8 @@ body.menu-open .site-menu__panel {
   letter-spacing: 0.06em;
   font-size: 0.95rem;
   transition: transform 180ms ease, background-color 180ms ease, color 180ms ease;
+  border: none;
+  cursor: pointer;
 }
 
 .button:hover,
@@ -537,17 +465,12 @@ body.menu-open .site-menu__panel {
 }
 
 .button-primary {
-  background: var(--accent);
+  background: var(--primary);
   color: #fff;
 }
 
 .button-primary:hover {
-  background: var(--accent-dark);
-}
-
-.button-secondary {
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  color: #fff;
+  background: var(--primary-dark);
 }
 
 .button-light {
@@ -564,7 +487,7 @@ body.menu-open .site-menu__panel {
 
 .button-light:hover {
   background: #ffffff;
-  color: var(--accent-dark);
+  color: var(--primary-dark);
 }
 
 /* ============================================================
@@ -931,7 +854,7 @@ body.menu-open .site-menu__panel {
 }
 
 .chip-button:hover {
-  background: var(--accent-dark);
+  background: var(--primary-dark);
   box-shadow: 0 8px 18px rgba(11, 10, 8, 0.18);
 }
 
@@ -955,7 +878,7 @@ body.menu-open .site-menu__panel {
    ============================================================ */
 .newsletter {
   padding: 0;
-  background: var(--accent);
+  background: var(--primary);
   color: #fff;
 }
 
@@ -1034,12 +957,12 @@ body.menu-open .site-menu__panel {
 }
 
 .newsletter-form input.field-invalid {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--primary);
   outline-offset: 1px;
 }
 
 .newsletter-form input.field-valid {
-  outline: 2px solid var(--success);
+  outline: 2px solid var(--action);
   outline-offset: 1px;
 }
 
@@ -1067,6 +990,8 @@ body.menu-open .site-menu__panel {
 
 /* ============================================================
    RENDERING PERFORMANCE
+   content-visibility: auto tells the browser to skip rendering
+   off-screen sections until the user scrolls close to them.
    ============================================================ */
 .how-it-works,
 .products,
@@ -1081,24 +1006,16 @@ body.menu-open .site-menu__panel {
 
 /* ============================================================
    TYPOGRAPHY HELPERS
+   Two fonts are used: Arimo (sans-serif) for headings and body,
+   Frank Ruhl Libre (serif) for the logo and decorative text.
    ============================================================ */
-.eyebrow,
-.section-kicker {
-  margin: 0 0 1rem;
-  font-family: "Frank Ruhl Libre", serif;
-  font-size: var(--type-accent-mobile);
-  font-weight: 300;
-}
-
 /* Keep light text visually light */
 .brand-mark,
 .site-menu__brand,
 .hero h1,
 .footer-brand,
 .intro-panels .card-copy p,
-.newsletter-copy p,
-.eyebrow,
-.section-kicker {
+.newsletter-copy p {
   font-weight: 300;
   font-variation-settings: "wght" 300;
 }
@@ -1411,22 +1328,6 @@ body.menu-open .site-menu__panel {
     font-size: var(--type-heading-desktop);
   }
 
-  .breadcrumbs {
-    padding: 16px 40px;
-  }
-
-  .breadcrumbs-inner {
-    font-size: 0.95rem;
-  }
-
-  .back-link-bar {
-    padding: 16px 40px;
-  }
-
-  .back-link-bar .back-button {
-    max-width: min(1800px, calc(100vw - 80px));
-  }
-
   /* Newsletter */
   .newsletter-shell {
     padding: 32px 0 104px;
@@ -1458,10 +1359,6 @@ body.menu-open .site-menu__panel {
     gap: 1rem;
   }
 
-  .eyebrow,
-  .section-kicker {
-    font-size: var(--type-accent-desktop);
-  }
 }
 
 @media (min-width: 900px) and (max-width: 1400px) {
@@ -1480,6 +1377,11 @@ body.menu-open .site-menu__panel {
   .intro-panels .button {
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .intro-panels .card-copy {
+    min-height: 170px;
+    justify-content: flex-start;
   }
 
   .intro-panels .card-copy p {
@@ -1510,11 +1412,24 @@ body.menu-open .site-menu__panel {
   }
 
   .process-heading {
-    padding: 32px 24px;
+    grid-column: span 5;
+    padding: 40px 32px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .process-heading h2 {
+    margin: 0 auto;
+    max-width: 360px;
+  }
+
+  .process-list {
+    grid-column: span 7;
   }
 
   .process-step > div {
     min-height: 150px;
+    padding: 48px 32px;
   }
 
   .process-step > div h3,
@@ -1524,13 +1439,6 @@ body.menu-open .site-menu__panel {
   }
 
   .process-step:first-child > div h3 {
-
-  .process-step:first-child > div a {
-    grid-column: 2;
-    display: inline-block;
-    padding: 0 56px;
-    margin-top: 10px;
-  }
     width: 100%;
     display: flex;
     justify-content: center;
@@ -1539,6 +1447,13 @@ body.menu-open .site-menu__panel {
     padding-left: 24px;
     padding-right: 24px;
     text-align: center;
+  }
+
+  .process-step:first-child > div a {
+    grid-column: 2;
+    display: inline-block;
+    padding: 0 24px 24px;
+    margin-top: 10px;
   }
 
   .process-step:first-child > div p {
@@ -1762,8 +1677,7 @@ body.menu-open .site-menu__panel {
   min-height: 346px;
 }
 
-.map-status,
-.map-feedback {
+.map-status {
   display: none;
   position: absolute;
   top: 12px;
@@ -1793,7 +1707,7 @@ body.menu-open .site-menu__panel {
 .map-status[data-state="error"] {
   display: flex;
   background: rgba(220, 65, 49, 0.12);
-  color: var(--accent-dark);
+  color: var(--primary-dark);
 }
 
 .map-status[data-state="hidden"] {
@@ -1824,7 +1738,7 @@ body.menu-open .site-menu__panel {
   height: 42px;
   border-radius: 50%;
   border: 4px solid rgba(11, 10, 8, 0.12);
-  border-top-color: var(--accent);
+  border-top-color: var(--primary);
   animation: map-spin 0.8s linear infinite;
   box-shadow: 0 10px 26px rgba(11, 10, 8, 0.14);
 }
@@ -1905,7 +1819,7 @@ body.menu-open .site-menu__panel {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--accent-dark);
+  color: var(--primary-dark);
 }
 
 .farm-popup__title {
@@ -2171,8 +2085,7 @@ body.menu-open .site-menu__panel {
     min-height: 397px;
   }
 
-  .map-status,
-  .map-feedback {
+  .map-status {
     font-size: 0.9rem;
     top: 16px;
     left: 88px;
@@ -2247,7 +2160,6 @@ body.menu-open .site-menu__panel {
     border-radius: 0;
     background: rgba(244, 244, 244, 0.97);
     border: 0;
-    box-shadow: none;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -2330,7 +2242,7 @@ body.menu-open .site-menu__panel {
     padding: 0;
     border: 1px solid transparent;
     border-radius: 2px;
-    color: var(--accent);
+    color: var(--primary);
     font-size: 0.92rem;
     text-align: center;
     transition: all 180ms ease;
@@ -2369,7 +2281,7 @@ body.menu-open .site-menu__panel {
     min-width: 52px;
     height: 46px;
     border-radius: 14px;
-    background: var(--accent);
+    background: var(--primary);
     color: #fff;
     display: inline-flex;
     align-items: center;
@@ -2386,7 +2298,7 @@ body.menu-open .site-menu__panel {
   }
 
   .chatbot-send:hover {
-    background: var(--accent-dark);
+    background: var(--primary-dark);
     transform: translateY(-1px);
   }
 

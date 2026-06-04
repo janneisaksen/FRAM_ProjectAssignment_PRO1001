@@ -1,10 +1,7 @@
 /**
- * menu.js — Accessible mobile menu controller
- *
- * Key design decisions:
- * 1) One shared controller handles open/close for all pages to keep behavior consistent.
- * 2) `inert` + `aria-hidden` are toggled together so hidden menu content is not focusable.
- * 3) Focus is trapped while the menu is open and returned to the opener on close.
+ * Controls the site menu on all pages.
+ * Opens and closes the menu, traps keyboard focus inside it,
+ * and returns focus to the button that opened it when it closes.
  */
 
 (() => {

@@ -1,11 +1,7 @@
 /**
- * Newsletter form validation — newsletter.js
- *
- * Demonstrates ES6+ features:
- *   - class syntax, constructor, methods (OOP paradigm)
- *   - arrow functions, const/let, template literals
- *   - Array.from, .map(), .every(), .find(), .forEach() (functional paradigm)
- *   - default parameters, optional chaining
+ * Validates the newsletter form before submission.
+ * Shows error messages next to each field and replaces
+ * the form with a success message when all fields pass.
  */
 
 // ── Functional helpers ──────────────────────────────────────

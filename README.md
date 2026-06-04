@@ -1,99 +1,103 @@
-# Project-Name-PRO1001-Frontend-Essentials
+# FRAM — PRO1001 Frontend Essentials
 
 ## Project description
 
 FRAM is a responsive frontend prototype for a sustainable food delivery service.
+The project is built with plain HTML, CSS, and JavaScript, and runs fully in the browser.
 
-The solution includes 3 pages:
+Pages:
+- `index.html` — landing page
+- `products.html` — produce overview and farm map
+- `chat.html` — chatbot/help page
 
-- `index.html` (landing page)
-- `products.html` (product overview + map)
-- `chat.html` (contact/chat experience)
+## Features
 
-Built with HTML, CSS, and JavaScript only (runs entirely in the browser).
+- Responsive layout (mobile-first, with tablet/desktop breakpoints)
+- Accessible mobile menu with keyboard focus trap (`menu.js`)
+- Newsletter form with client-side validation and success message (`newsletter.js`)
+- Interactive farm map (`farm-map.js`)
+	- Leaflet loaded on demand for better performance
+	- Overpass API enrichment with graceful fallback
+- Chat UI with local keyword-based fallback replies (`chatbot.js`)
 
-## Setup and installation
+## Technologies used
 
-### Prerequisites
-
-- Modern browser (Chrome, Edge, Safari, Firefox)
-- Optional: VS Code + Live Server
-
-### Installation
-
-1. Clone the repository: `git clone <repository-url>`
-2. Open the project folder.
-3. No package install is needed.
-
-## Run locally
-
-- Quick: open `index.html` in a browser.
-- Recommended: run Live Server from project root and open the local URL.
-
-## Project structure
-
-- `index.html` — main page
-- `products.html` — product listing + farms map
-- `chat.html` — chatbot/contact page
-- `styles.css` — shared styling and responsive layout
-- `menu.js` — mobile menu and keyboard handling
-- `newsletter.js` — form validation
-- `farm-map.js` — external map integration
-- `chatbot.js` — chatbot logic with fallback replies
+- HTML5 (semantic structure)
+- CSS3 (custom properties, Flexbox, Grid, media queries)
+- JavaScript (ES6+)
+- Leaflet (map rendering)
+- Overpass API / OpenStreetMap data
 
 ## API integration
 
-### Chosen API
+### Overpass API (map)
+- Used in `farm-map.js` to fetch nearby map context.
+- API calls are cached in `sessionStorage` for 12 hours.
+- If the API fails or is unavailable, the map still works with local farm markers.
 
-- OpenStreetMap/Overpass API (used in `farm-map.js`)
+### Chat endpoint (optional)
+- `chatbot.js` supports an optional endpoint via `data-chat-endpoint`.
+- If no endpoint is provided, chatbot uses local keyword replies.
 
-### Limitations, ethics, and bias
+## Setup instructions
 
-- Public endpoint can be rate-limited or unavailable.
-- If API fails, map still shows base markers (graceful fallback).
-- Data quality depends on community-maintained OSM data.
-- Rural coverage can be less detailed than urban areas.
-- Only public map data is queried; no personal data is sent.
+1. Clone the repository:
+	 `git clone <repository-url>`
+2. Open the project folder.
+3. No package installation is required.
 
-### API key note
+## Run locally
 
-- Overpass does not require an API key in this project.
-- If a real chatbot endpoint is added later, do not commit secrets to the repo.
+- Quick start: open `index.html` directly in a browser.
+- Recommended: run with VS Code Live Server from the project root.
 
-## Accessibility and performance (summary)
+## Accessibility and quality notes
 
-- Target: WCAG 2.1 AA
-- Keyboard navigation and ARIA state updates are implemented in interactive components.
-- Performance was improved with lighter font loading, responsive images, and deferred non-critical map assets.
+- WCAG 2.1 AA color contrast updates are included.
+- Keyboard navigation is supported for menu and forms.
+- ARIA attributes are used for menu state, live feedback, and validation states.
 
 ## Known limitations
 
-- No backend/database (frontend-only prototype).
-- Farm markers are currently hardcoded.
-- Chatbot uses keyword fallback unless an external endpoint is configured.
+- Frontend-only prototype (no backend or database).
+- Product data and farm list are hardcoded.
+- Overpass API can be rate-limited.
+- Chatbot fallback is rule-based and limited to predefined topics.
 
 ## Future improvements
 
-- Connect products/chat to a real backend API.
-- Move hardcoded content into API/CMS.
-- Add automated accessibility and regression tests.
+- Connect products, basket, and chat to real backend APIs.
+- Move product/farm content to a CMS or data service.
+- Add automated tests (accessibility + UI regression).
+- Add persistent cart and checkout flow.
+
+## Project structure
+
+- `index.html`
+- `products.html`
+- `chat.html`
+- `styles.css`
+- `menu.js`
+- `newsletter.js`
+- `farm-map.js`
+- `chatbot.js`
 
 ## Commit history
 
-The repository follows meaningful commit types:
+Commit messages follow these types:
 
 - `feat:` new features
 - `fix:` bug fixes
-- `style:` visual/style-only changes
+- `style:` visual/CSS-only changes
 - `perf:` performance improvements
 - `docs:` documentation updates
 
-## Resources used
+## Resources
 
 - Course material and assignment brief
-- Figma design
-- MDN documentation
+- Figma design file
+- MDN Web Docs
 - Leaflet documentation
-- OpenStreetMap / Overpass documentation
-- Lighthouse + browser DevTools
-- GitHub Copilot (AI support for ideation/troubleshooting; final decisions were manually reviewed)
+- OpenStreetMap / Overpass API documentation
+- Google Lighthouse
+- GitHub Copilot (used for ideation and troubleshooting; all decisions were manually reviewed)
