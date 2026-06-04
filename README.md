@@ -13,12 +13,12 @@ Pages:
 ## Features
 
 - Responsive layout (mobile-first, with tablet/desktop breakpoints)
-- Accessible mobile menu with keyboard focus trap (`menu.js`)
-- Newsletter form with client-side validation and success message (`newsletter.js`)
-- Interactive farm map (`farm-map.js`)
+- Accessible mobile menu with keyboard focus trap (`js/menu.js`)
+- Newsletter form with client-side validation and success message (`js/newsletter.js`)
+- Interactive farm map (`js/farm-map.js`)
 	- Leaflet loaded on demand for better performance
 	- Overpass API enrichment with graceful fallback
-- Chat UI with local keyword-based fallback replies (`chatbot.js`)
+- Chat UI with local keyword-based fallback replies (`js/chatbot.js`)
 
 ## Technologies used
 
@@ -31,12 +31,12 @@ Pages:
 ## API integration
 
 ### Overpass API (map)
-- Used in `farm-map.js` to fetch nearby map context.
+- Used in `js/farm-map.js` to fetch nearby map context.
 - API calls are cached in `sessionStorage` for 12 hours.
 - If the API fails or is unavailable, the map still works with local farm markers.
 
 ### Chat endpoint (optional)
-- `chatbot.js` supports an optional endpoint via `data-chat-endpoint`.
+- `js/chatbot.js` supports an optional endpoint via `data-chat-endpoint`.
 - If no endpoint is provided, chatbot uses local keyword replies.
 
 ## Setup instructions
@@ -76,11 +76,11 @@ Pages:
 - `index.html`
 - `products.html`
 - `chat.html`
-- `styles.css`
-- `menu.js`
-- `newsletter.js`
-- `farm-map.js`
-- `chatbot.js`
+- `css/styles.css`
+- `js/menu.js`
+- `js/newsletter.js`
+- `js/farm-map.js`
+- `js/chatbot.js`
 
 ## Commit history
 
