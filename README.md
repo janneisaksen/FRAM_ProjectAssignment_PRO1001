@@ -96,7 +96,6 @@ Commit messages follow these types:
 
 - Course material and assignment brief
 - Figma design file
-- MDN Web Docs
 - Leaflet documentation
 - OpenStreetMap / Overpass API documentation
 - Google Lighthouse
