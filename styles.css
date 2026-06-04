@@ -1,6 +1,12 @@
 /* ============================================================
    DESIGN TOKENS
    ============================================================ */
+/*
+  Key design decisions:
+  - Mobile-first tokens and breakpoints drive all typography/layout scales.
+  - Reusable custom properties keep visual consistency across pages.
+  - Component sections are structured for accessibility and performance tuning.
+*/
 :root {
   --background: #f7f2de;
   --surface: #ffffff;

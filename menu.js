@@ -1,3 +1,12 @@
+/**
+ * menu.js — Accessible mobile menu controller
+ *
+ * Key design decisions:
+ * 1) One shared controller handles open/close for all pages to keep behavior consistent.
+ * 2) `inert` + `aria-hidden` are toggled together so hidden menu content is not focusable.
+ * 3) Focus is trapped while the menu is open and returned to the opener on close.
+ */
+
 (() => {
   const body = document.body;
   const menu = document.querySelector("[data-site-menu]");
@@ -11,6 +20,7 @@
 
   const closeButtons = menu.querySelectorAll("[data-menu-close]");
   const menuLinks = menu.querySelectorAll("a");
+  // Collect all focusable controls so keyboard users can stay inside the open dialog panel.
   const getFocusable = () =>
     Array.from(
       menuPanel.querySelectorAll(
@@ -77,6 +87,7 @@
     }
 
     if (event.key === "Tab") {
+      // Focus trap: cycle focus from last -> first and first -> last.
       const focusable = getFocusable();
 
       if (!focusable.length) {

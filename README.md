@@ -2,183 +2,98 @@
 
 ## Project description
 
-FRAM is a responsive frontend concept for local farm produce delivery. The project includes:
+FRAM is a responsive frontend prototype for a sustainable food delivery service.
 
-- Landing page (`index.html`)
-- Produce page with interactive map (`products.html` + `farm-map.js`)
-- Chat page with local fallback chatbot (`chat.html` + `chatbot.js`)
+The solution includes 3 pages:
 
-The layout is built with a 12-column CSS Grid system and component-level Flexbox. Typography uses `Frank Ruhl Libre` and `Arimo`.
+- `index.html` (landing page)
+- `products.html` (product overview + map)
+- `chat.html` (contact/chat experience)
 
-## Setup and installation instructions
+Built with HTML, CSS, and JavaScript only (runs entirely in the browser).
+
+## Setup and installation
 
 ### Prerequisites
 
-- A modern browser (Chrome, Edge, Safari, Firefox)
-- Optional: VS Code + Live Server extension for local preview
+- Modern browser (Chrome, Edge, Safari, Firefox)
+- Optional: VS Code + Live Server
 
 ### Installation
 
-1. Clone the repository:
-	- `git clone <repository-url>`
-2. Open the folder in VS Code.
-3. No package installation is required (pure HTML/CSS/JavaScript project).
+1. Clone the repository: `git clone <repository-url>`
+2. Open the project folder.
+3. No package install is needed.
 
-## How to run the application locally
+## Run locally
 
-You can run the project in either of these ways:
-
-### Option 1 (quick)
-
-- Open `index.html` directly in your browser.
-
-### Option 2 (recommended)
-
-- Start a local dev server (e.g. VS Code Live Server) from the project root.
-- Open the served URL in your browser.
-
-Then navigate between pages:
-
-- `index.html`
-- `products.html`
-- `chat.html`
-
-## Browser-only scope
-
-This project runs entirely in the browser (HTML/CSS/JavaScript). No backend, database, or deployment is required for grading.
-
-## API keys and configuration
-
-- Overpass API integration in `farm-map.js` does not require an API key.
-- The optional chatbot endpoint in `chatbot.js` should use a placeholder URL in source code (never commit secrets).
-- If a real endpoint is added later, keep secrets outside the repository and document setup in a local-only config process.
+- Quick: open `index.html` in a browser.
+- Recommended: run Live Server from project root and open the local URL.
 
 ## Project structure
 
-- `index.html` — landing page
-- `products.html` — produce overview + map section
-- `chat.html` — chatbot UI
-- `styles.css` — shared design tokens, layout, typography, responsive rules
-- `menu.js` — mobile/overlay navigation behavior
-- `newsletter.js` — newsletter form validation
-- `farm-map.js` — Leaflet map + optional Overpass enrichment
-- `chatbot.js` — chatbot logic + fallback responses
+- `index.html` — main page
+- `products.html` — product listing + farms map
+- `chat.html` — chatbot/contact page
+- `styles.css` — shared styling and responsive layout
+- `menu.js` — mobile menu and keyboard handling
+- `newsletter.js` — form validation
+- `farm-map.js` — external map integration
+- `chatbot.js` — chatbot logic with fallback replies
 
-## API considerations
+## API integration
 
-### Overpass API used by `farm-map.js`
+### Chosen API
 
-**Limitations**
+- OpenStreetMap/Overpass API (used in `farm-map.js`)
 
-- Public Overpass endpoints can be rate-limited, slow, or temporarily unavailable.
-- The map still works without enrichment, but nearby place context may be incomplete.
-- Returned OSM data depends on community maintenance and may be outdated in rural areas.
+### Limitations, ethics, and bias
 
-**Ethical considerations**
+- Public endpoint can be rate-limited or unavailable.
+- If API fails, map still shows base markers (graceful fallback).
+- Data quality depends on community-maintained OSM data.
+- Rural coverage can be less detailed than urban areas.
+- Only public map data is queried; no personal data is sent.
 
-- The project only queries publicly available map data and does not send personal user data.
-- The request should be used sparingly because Overpass is a shared public resource.
-- OpenStreetMap attribution is required and is already shown in the map UI.
+### API key note
 
-**Potential biases**
+- Overpass does not require an API key in this project.
+- If a real chatbot endpoint is added later, do not commit secrets to the repo.
 
-- Rural areas can have less detailed OSM coverage than cities, so results may be uneven.
-- The query focuses on shops, tourism, and amenities, which can underrepresent agricultural context.
-- Place naming and tagging may vary by region and language, affecting consistency.
+## Accessibility and performance (summary)
 
-### Optional chatbot endpoint used by `chatbot.js`
+- Target: WCAG 2.1 AA
+- Keyboard navigation and ARIA state updates are implemented in interactive components.
+- Performance was improved with lighter font loading, responsive images, and deferred non-critical map assets.
 
-**Limitations**
+## Known limitations
 
-- No live endpoint is configured by default, so the chatbot falls back to local keyword responses.
-- Responses are not context-aware and do not preserve conversation history.
+- No backend/database (frontend-only prototype).
+- Farm markers are currently hardcoded.
+- Chatbot uses keyword fallback unless an external endpoint is configured.
 
-**Ethical considerations**
+## Future improvements
 
-- The bot should be presented as an automated system, not a human agent.
-- If an endpoint is added later, only the minimum necessary user message data should be sent.
-
-**Potential biases**
-
-- Keyword matching works better for some topics and languages than others.
-- Fallback replies reflect the assumptions of the predefined topic categories.
-
-## Accessibility and performance notes
-
-- Accessibility target: WCAG 2.1 Level AA.
-- Keyboard navigation is supported for menu and interactive controls.
-- ARIA attributes are used for menu state, map status, and chatbot status updates.
-- Performance was improved by reducing font payload, deferring non-critical map assets, and using responsive image sizing.
-
-## Development process and resources used
-
-### Development process
-
-- Implemented core pages first, then responsive behavior.
-- Added external API integration (map) with graceful fallback.
-- Iterated on accessibility, contrast, and keyboard interactions.
-- Performed performance tuning with Lighthouse feedback.
-
-### Challenges and solutions
-
-- Challenge: external API reliability/rate limits.
-	- Solution: graceful degradation + user feedback when enrichment is unavailable.
-- Challenge: balancing design fidelity with mobile performance.
-	- Solution: deferred assets, responsive image sizing, reduced blocking requests.
-- Challenge: maintaining accessibility while preserving visual style.
-	- Solution: adjusted contrast, semantic structure, and ARIA state messaging.
-
-### Resources used
-
-- Course material and assignment brief
-- Figma design specification
-- MDN documentation (HTML/CSS/JavaScript, accessibility, async)
-- Leaflet documentation
-- OpenStreetMap / Overpass API documentation
-- Lighthouse and browser developer tools
-- AI-assisted support (GitHub Copilot) for brainstorming, wording suggestions, and troubleshooting ideas; all final code and documentation decisions were manually reviewed and validated.
-
-## Known limitations and future improvements
-
-### Known limitations
-
-- Public Overpass API can be rate-limited or temporarily unavailable.
-- Farm markers are currently fixed/hardcoded.
-- Chatbot uses keyword fallback when no live endpoint is configured.
-- No backend persistence for cart, user account, or newsletter subscriptions.
-
-### Future improvements
-
-- Add a backend API for real-time stock, pricing, and ordering.
-- Replace hardcoded farm data with CMS/API-managed content.
-- Add server-side caching for Overpass/map enrichment data.
-- Improve chatbot with contextual/multi-turn support.
-- Add automated tests (accessibility, regression, and interaction tests).
+- Connect products/chat to a real backend API.
+- Move hardcoded content into API/CMS.
+- Add automated accessibility and regression tests.
 
 ## Commit history
 
-The repository uses conventional, meaningful commit messages such as:
+The repository follows meaningful commit types:
 
-- `feat:` for new features
-- `fix:` for bug/accessibility/performance fixes
-- `style:` for styling-only updates
-- `perf:` for performance-specific improvements
+- `feat:` new features
+- `fix:` bug fixes
+- `style:` visual/style-only changes
+- `perf:` performance improvements
+- `docs:` documentation updates
 
-This supports a clear and traceable development history.
+## Resources used
 
-## Technical notes
-
-### Layout system
-
-- Main layout: CSS Grid (`grid-template-columns: repeat(12, minmax(0, 1fr))`)
-- Component alignment: Flexbox
-
-### Map integration
-
-- Leaflet + OpenStreetMap tiles
-- Optional Overpass API enrichment (graceful fallback on failure)
-
-### Chatbot integration
-
-- Optional API endpoint support
-- Local keyword fallback when endpoint is not configured
+- Course material and assignment brief
+- Figma design
+- MDN documentation
+- Leaflet documentation
+- OpenStreetMap / Overpass documentation
+- Lighthouse + browser DevTools
+- GitHub Copilot (AI support for ideation/troubleshooting; final decisions were manually reviewed)
