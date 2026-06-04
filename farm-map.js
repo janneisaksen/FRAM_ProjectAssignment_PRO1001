@@ -46,7 +46,10 @@ const farms = [
 const mapStatus = document.getElementById('mapStatus');
 const mapContainer = document.getElementById('farmMap');
 const mapShell = mapContainer?.closest('.map-shell');
-const farmBounds = L.latLngBounds(farms.map((farm) => [farm.lat, farm.lng]));
+
+const LEAFLET_JS_URL = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+const LEAFLET_CSS_URL = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+const LEAFLET_ASSET_INTEGRITY = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';
 
 const OVERPASS_CACHE_KEY = 'fram-map-overpass-cache-v1';
 const OVERPASS_CACHE_TTL_MS = 1000 * 60 * 60 * 12;
@@ -65,6 +68,53 @@ function setStatus(message, state = 'hidden') {
 function setLoading(isLoading) {
   mapContainer.setAttribute('aria-busy', String(isLoading));
   mapShell.dataset.loading = String(isLoading);
+}
+
+function loadLeafletCss() {
+  if (document.querySelector('link[data-leaflet-style="true"]')) {
+    return;
+  }
+
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = LEAFLET_CSS_URL;
+  link.integrity = LEAFLET_ASSET_INTEGRITY;
+  link.crossOrigin = '';
+  link.dataset.leafletStyle = 'true';
+  document.head.appendChild(link);
+}
+
+function loadLeafletJs() {
+  if (window.L) {
+    return Promise.resolve();
+  }
+
+  const existing = document.querySelector('script[data-leaflet-script="true"]');
+
+  if (existing) {
+    return new Promise((resolve, reject) => {
+      existing.addEventListener('load', () => resolve(), { once: true });
+      existing.addEventListener('error', () => reject(new Error('Failed to load Leaflet.')), { once: true });
+    });
+  }
+
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = LEAFLET_JS_URL;
+    script.crossOrigin = '';
+    script.defer = true;
+    script.dataset.leafletScript = 'true';
+
+    script.addEventListener('load', () => resolve(), { once: true });
+    script.addEventListener('error', () => reject(new Error('Failed to load Leaflet.')), { once: true });
+
+    document.head.appendChild(script);
+  });
+}
+
+async function ensureLeafletLoaded() {
+  loadLeafletCss();
+  await loadLeafletJs();
 }
 
 function getCachedCandidates() {
@@ -186,7 +236,7 @@ function addFarmMarkers(map) {
   });
 }
 
-async function fetchOverpassCandidates() {
+async function fetchOverpassCandidates(farmBounds) {
   const cached = getCachedCandidates();
 
   if (cached) {
@@ -224,7 +274,8 @@ async function fetchOverpassCandidates() {
 async function loadMapExtrasInBackground() {
   try {
     setStatus('Loading extra map context...', 'loading');
-    await fetchOverpassCandidates();
+    const farmBounds = window.L.latLngBounds(farms.map((farm) => [farm.lat, farm.lng]));
+    await fetchOverpassCandidates(farmBounds);
     setStatus('', 'hidden');
   } catch (error) {
     console.warn('Map enrichment skipped:', error);
@@ -232,30 +283,41 @@ async function loadMapExtrasInBackground() {
   }
 }
 
-function initMap() {
+async function initMap() {
   setLoading(true);
-  setStatus('', 'hidden');
+  setStatus('Loading map...', 'loading');
 
-  const map = L.map(mapContainer, {
-    scrollWheelZoom: false,
-    preferCanvas: true,
-  });
+  try {
+    await ensureLeafletLoaded();
 
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; OpenStreetMap contributors',
-  }).addTo(map);
+    const farmBounds = window.L.latLngBounds(farms.map((farm) => [farm.lat, farm.lng]));
 
-  map.fitBounds(farmBounds.pad(0.25));
-  addFarmMarkers(map);
+    const map = L.map(mapContainer, {
+      scrollWheelZoom: false,
+      preferCanvas: true,
+    });
 
-  setLoading(false);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors',
+    }).addTo(map);
 
-  // Avoid size glitches after hidden/transitioned containers.
-  window.setTimeout(() => map.invalidateSize(), 60);
+    map.fitBounds(farmBounds.pad(0.25));
+    addFarmMarkers(map);
 
-  // Optional enrichment should never block map interactivity.
-  void loadMapExtrasInBackground();
+    setLoading(false);
+    setStatus('', 'hidden');
+
+    // Avoid size glitches after hidden/transitioned containers.
+    window.setTimeout(() => map.invalidateSize(), 60);
+
+    // Optional enrichment should never block map interactivity.
+    void loadMapExtrasInBackground();
+  } catch (error) {
+    console.warn('Map failed to initialize:', error);
+    setLoading(false);
+    setStatus('Map is unavailable right now.', 'error');
+  }
 }
 
 function startWhenVisible() {
@@ -267,7 +329,7 @@ function startWhenVisible() {
     }
 
     hasStarted = true;
-    initMap();
+    void initMap();
   };
 
   if (!('IntersectionObserver' in window)) {

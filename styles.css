@@ -8,7 +8,7 @@
   --surface-blue: #e1eaf0;
   --text: #0b0a08;
   --muted: #4d4944;
-  --accent: #dc4131;
+  --accent: #c8372a;
   --accent-dark: #ae2e21;
   --success: #068f51;
 
@@ -407,7 +407,7 @@ body.menu-open .site-menu__panel {
   overflow: hidden;
   color: #fff;
   background-image: linear-gradient(rgba(32, 34, 33, 0.005), rgba(32, 34, 33, 0.005)),
-    url("https://images.unsplash.com/photo-1713244649594-0c2de54f2eaa?q=80&w=1750&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    url("https://images.unsplash.com/photo-1713244649594-0c2de54f2eaa?q=80&w=960&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
   background-size: cover;
   background-position: center 58%;
 }
@@ -627,7 +627,7 @@ body.menu-open .site-menu__panel {
   max-width: 540px;
   margin: 0 auto;
   font-family: "Frank Ruhl Libre", serif;
-  font-size: 16px;
+  font-size: var(--type-large-body-mobile);
   font-weight: 300;
   line-height: 1.4;
   color: #48433e;
@@ -1060,6 +1060,20 @@ body.menu-open .site-menu__panel {
 }
 
 /* ============================================================
+   RENDERING PERFORMANCE
+   ============================================================ */
+.how-it-works,
+.products,
+.newsletter,
+.partnering-farms,
+.produce-products,
+.produce-farms,
+.produce-newsletter {
+  content-visibility: auto;
+  contain-intrinsic-size: 900px;
+}
+
+/* ============================================================
    TYPOGRAPHY HELPERS
    ============================================================ */
 .eyebrow,
@@ -1161,6 +1175,8 @@ body.menu-open .site-menu__panel {
 
   .hero {
     aspect-ratio: auto;
+    background-image: linear-gradient(rgba(32, 34, 33, 0.005), rgba(32, 34, 33, 0.005)),
+      url("https://images.unsplash.com/photo-1713244649594-0c2de54f2eaa?q=80&w=1750&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
   }
 
   .hero-grid {
@@ -1226,9 +1242,8 @@ body.menu-open .site-menu__panel {
   .intro-panels .panel-body {
     margin: 0 auto;
     min-height: 58px;
-    font-family: "Frank Ruhl Libre", serif;
-    font-size: 20px;
-    font-weight: 300;
+    font-size: var(--type-large-body-desktop);
+    font-weight: 400;
   }
 
   .info-card img {
@@ -2201,7 +2216,7 @@ body.menu-open .site-menu__panel {
      ============================================================ */
   .chat-page {
     background-image: linear-gradient(rgba(32, 34, 33, 0.005), rgba(32, 34, 33, 0.005)),
-      url("https://images.unsplash.com/photo-1713244649594-0c2de54f2eaa?q=80&w=1750&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+      url("https://images.unsplash.com/photo-1713244649594-0c2de54f2eaa?q=80&w=960&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
     background-size: cover;
     background-position: center;
     background-attachment: scroll;
@@ -2394,6 +2409,8 @@ body.menu-open .site-menu__panel {
   @media (min-width: 900px) {
     .chat-page {
       background-attachment: fixed;
+      background-image: linear-gradient(rgba(32, 34, 33, 0.005), rgba(32, 34, 33, 0.005)),
+        url("https://images.unsplash.com/photo-1713244649594-0c2de54f2eaa?q=80&w=1750&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
     }
 
     .chat-stage {
